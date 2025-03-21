@@ -1,36 +1,35 @@
-console.log("Le script JavaScript est bien chargé !");
+const pacman = document.getElementById("pacman");
+const step = 5;
+let direction = null;
+let interval = null;
 
-        let pacman = document.getElementById("pacman");
-        let step = 5;
-        let direction = null;
-        let interval = null;
+function movePacman() {
+    if (!direction) return;
 
-        function movePacman() {
-            if (!direction) return;
+    const left = parseInt(pacman.style.left) || 100;
+    const top = parseInt(pacman.style.top) || 100;
 
-            let left = parseInt(pacman.style.left) || 100;
-            let top = parseInt(pacman.style.top) || 100;
+    if (direction === "ArrowRight" && left + step < globalThis.innerWidth - pacman.offsetWidth) {
+        pacman.style.left = left + step + "px";
+    } else if (direction === "ArrowLeft" && left - step > 0) {
+        pacman.style.left = left - step + "px";
+    } else if (direction === "ArrowUp" && top - step > 0) {
+        pacman.style.top = top - step + "px";
+    } else if (direction === "ArrowDown" && top + step < globalThis.innerHeight - pacman.offsetHeight) {
+        pacman.style.top = top + step + "px";
+    } else {
+        clearInterval(interval);
+        interval = null;
+    }
+}
 
-            if (direction === "ArrowRight") {
-                pacman.style.left = left + step + "px";
-            } else if (direction === "ArrowLeft") {
-                pacman.style.left = left - step + "px";
-            } else if (direction === "ArrowUp") {
-                pacman.style.top = top - step + "px";
-            } else if (direction === "ArrowDown") {
-                pacman.style.top = top + step + "px";
-            } else {
-                clearInterval(interval); 
-                interval = null;
-            }
+document.addEventListener("keydown", function(event) {
+    console.log(parseInt(pacman.style.left))
+    if (["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown"].includes(event.key)) {
+        direction = event.key;
+        if (!interval) {
+            interval = setInterval(movePacman, 30); 
+
         }
-
-        document.addEventListener("keydown", function(event) {
-            if (["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown"].includes(event.key)) {
-                direction = event.key;
-
-                if (!interval) {
-                    interval = setInterval(movePacman, 30); 
-                }
-            }
-        });
+    }
+});
