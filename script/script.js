@@ -1,5 +1,3 @@
-console.log("Le script JavaScript est bien chargé !");
-
         let pacman = document.getElementById("pacman");
         let step = 5;
         let direction = null;
