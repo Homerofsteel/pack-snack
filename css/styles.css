@@ -1,0 +1,21 @@
+body {
+    background-color: black;
+    background-image: url("../Images/maze.png");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#pacman {
+    width: 5%;
+    height: 5%;
+    top: 100px;
+    left: 100px;
+    position: absolute;
+    animation: manger 1.3s infinite steps(2);
+}
+
+@keyframes manger {
+    0% { content: url('../Images/standing-rick.png'); }
+    100% { content: url('../Images/drunk-rick.png'); }
+}
