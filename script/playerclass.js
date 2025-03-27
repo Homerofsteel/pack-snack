@@ -1,48 +1,54 @@
 class Pacman {
-    constructor(position, speed, direction, interval) {
-        this.position=position;
-        this.speed=speed;
-        this.direction = direction;
-        this.interval = interval;
+    constructor(elementId, position, speed) {
+        this.pacman = document.getElementById(elementId);
+        this.position = position;
+        this.speed = speed;
+        this.direction = null;
+        this.interval = setInterval(() => this.move(), 30); 
 
-        this.init()
+        this.pacman.style.position = "absolute";
+        this.pacman.style.left = this.position.x + "px";
+        this.pacman.style.top = this.position.y + "px";
+
+        this.init();
     }
 
     init() {
         document.addEventListener("keydown", (event) => {
             if (["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown"].includes(event.key)) {
-                this.direction = event.key;
-                if (!this.interval) {
-                    this.interval = setInterval(() => this.move(), 30);
-                }
+                this.direction = event.key; 
             }
-        });
-
-        document.addEventListener("keyup", () => {
-            clearInterval(this.interval);
-            this.interval = null;
         });
     }
 
     move() {
-        if (!this.direction) return;
+        if (!this.direction) return; 
 
-        let left = parseInt(this.pacman.style.left) || this.position.x;
-        let top = parseInt(this.pacman.style.top) || this.position.y;
+        let left = parseInt(this.pacman.style.left);
+        let top = parseInt(this.pacman.style.top);
 
-        if (this.direction === "ArrowRight" && left + this.step < window.innerWidth - this.pacman.offsetWidth) {
-            this.pacman.style.left = left + this.step + "px";
-        } else if (this.direction === "ArrowLeft" && left - this.step > 0) {
-            this.pacman.style.left = left - this.step + "px";
-        } else if (this.direction === "ArrowUp" && top - this.step > 0) {
-            this.pacman.style.top = top - this.step + "px";
-        } else if (this.direction === "ArrowDown" && top + this.step < window.innerHeight - this.pacman.offsetHeight) {
-            this.pacman.style.top = top + this.step + "px";
+        let nextLeft = left;
+        let nextTop = top;
+
+        if (this.direction === "ArrowRight") {
+            nextLeft += this.speed.x;
+        } else if (this.direction === "ArrowLeft") {
+            nextLeft -= this.speed.x;
+        } else if (this.direction === "ArrowUp") {
+            nextTop -= this.speed.y;
+        } else if (this.direction === "ArrowDown") {
+            nextTop += this.speed.y;
         }
+
+        if (nextLeft < 0 || nextLeft > window.innerWidth - this.pacman.offsetWidth ||
+            nextTop < 0 || nextTop > window.innerHeight - this.pacman.offsetHeight) {
+            this.direction = null; 
+            return;
+        }
+
+        this.pacman.style.left = nextLeft + "px";
+        this.pacman.style.top = nextTop + "px";
     }
 }
 
-const player = new Pacman ({
-    position: {x:40,y:40},
-    speed: {x: 40,y:40}
-})
+const player = new Pacman("pacman", { x: 100, y: 100 }, { x: 5, y: 5 });
