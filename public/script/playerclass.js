@@ -27,23 +27,23 @@ class Pacman {
 
     checkCollision(nextX, nextY) {
         
-        // Vérification des collisions avec les boundaries (murs et obstacles)
+        // Vérification des collisions avec les boundaries
         for (const boundary of boundaries) {
             if (boundary.id !== "no collision") {
                 const pacmanLeft = nextX, pacmanRight = nextX + this.pacman.offsetWidth, pacmanTop = nextY, pacmanBottom = nextY + this.pacman.offsetHeight;
                 const boundaryLeft = boundary.position.x, boundaryRight = boundary.position.x + (boundary.image ? boundary.image.width : boundary.width), boundaryTop = boundary.position.y, boundaryBottom = boundary.position.y + (boundary.image ? boundary.image.height : boundary.height);
     
                 if (pacmanLeft < boundaryRight && pacmanRight > boundaryLeft && pacmanTop < boundaryBottom && pacmanBottom > boundaryTop) {
-                    return true; // Collision avec boundary
+                    return true;
                 }
             }
         }
     
-        // Vérification des collisions avec les pellets (ignorées pour mouvement)
+        // Vérification des collisions avec les pellets
         for (const pellet of pellets) {
             const pelletLeft = pellet.position.x, pelletRight = pellet.position.x + (pellet.image ? pellet.image.width : pellet.width), pelletTop = pellet.position.y, pelletBottom = pellet.position.y + (pellet.image ? pellet.image.height : pellet.height);
             if (nextX < pelletRight && nextX + this.pacman.offsetWidth > pelletLeft && nextY < pelletBottom && nextY + this.pacman.offsetHeight > pelletTop) {
-                return false; // Collision avec pellet, mais ne bloque pas le mouvement
+                return false; 
             }
         }
     
