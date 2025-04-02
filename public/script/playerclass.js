@@ -17,12 +17,47 @@ class Pacman {
     }
 
     init() {
-        document.addEventListener("keydown", (event) => {
-            if (["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown"].includes(event.key)) {
-                this.direction = event.key; 
+        document.addEventListener("keydown", (key) => {
+            switch(key) {
+                case 'ArrowRight': 
+                keys.right.pressed = true
+                lastKey='right'
+                break
+                case 'ArrowLeft': 
+                keys.left.pressed = true
+                lastKey='left'
+                break
+                case 'ArrowUp': 
+                keys.up.pressed = true
+                lastKey='up'
+                break
+                case 'ArrowDown': 
+                keys.down.pressed = true
+                lastKey='down'
+                break
+
+            }
+        });
+        document.addEventListener("keyup", (key) => {
+            switch(key) {
+                case 'ArrowRight': 
+                keys.right.pressed = false
+                break
+                case 'ArrowLeft': 
+                keys.left.pressed = false
+                break
+                case 'ArrowUp': 
+                keys.up.pressed = false
+                break
+                case 'ArrowDown': 
+                keys.down.pressed = false
+                break
+
             }
         });
     }
+
+    
     
 
     checkCollision(nextX, nextY) {
@@ -59,13 +94,13 @@ class Pacman {
         let nextLeft = left;
         let nextTop = top;
 
-        if (this.direction === "ArrowRight") {
+        if (key.right.pressed && lastKey=='right') {
             nextLeft += this.speed.x;
-        } else if (this.direction === "ArrowLeft") {
+        } else if (key.left.pressed && lastKey=='left') {
             nextLeft -= this.speed.x;
-        } else if (this.direction === "ArrowUp") {
+        } else if (key.up.pressed && lastKey=='up') {
             nextTop -= this.speed.y;
-        } else if (this.direction === "ArrowDown") {
+        } else if (key.down.pressed && lastKey=='down')  {
             nextTop += this.speed.y;
         }
 
@@ -80,3 +115,21 @@ class Pacman {
 }
 
 const player = new Pacman("pacman", { x: 45, y: 45 }, { x: 5, y: 5 });
+
+const keys = {
+    down: {
+        pressed: false
+    },
+    up: {
+        pressed: false
+    },
+    left: {
+        pressed: false
+    },
+    right: {
+        pressed: false
+    },
+}
+
+
+let lastKey=''
