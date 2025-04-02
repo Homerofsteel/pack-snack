@@ -7,7 +7,6 @@ class Pacman {
         this.position = position;
         this.speed = speed;
         this.direction = null;
-        this.interval = setInterval(() => this.move(), 30); 
 
         this.pacman.style.position = "absolute";
         this.pacman.style.left = this.position.x + "px";
@@ -18,11 +17,47 @@ class Pacman {
 
     init() {
         document.addEventListener("keydown", (event) => {
-            if (["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown"].includes(event.key)) {
-                this.direction = event.key; 
+            switch(event.key) {
+                case 'ArrowRight': 
+                keys.right.pressed = true;
+                lastKey='right';
+                break;
+                case 'ArrowLeft': 
+                keys.left.pressed = true;
+                lastKey='left';
+                break;
+                case 'ArrowUp': 
+                keys.up.pressed = true;
+                lastKey='up';
+                break;
+                case 'ArrowDown': 
+                keys.down.pressed = true;
+                lastKey='down';
+                break;
+
             }
         });
+        document.addEventListener("keyup", (event) => {
+            switch(event.key) {
+                case 'ArrowRight': 
+                keys.right.pressed = false;
+                break;
+                case 'ArrowLeft': 
+                keys.left.pressed = false;
+                break;
+                case 'ArrowUp': 
+                keys.up.pressed = false;
+                break;
+                case 'ArrowDown': 
+                keys.down.pressed = false;
+                break;
+
+            }
+        });
+        this.move()
     }
+
+    
     
 
     checkCollision(nextX, nextY) {
@@ -34,7 +69,7 @@ class Pacman {
                 const boundaryLeft = boundary.position.x, boundaryRight = boundary.position.x + (boundary.image ? boundary.image.width : boundary.width), boundaryTop = boundary.position.y, boundaryBottom = boundary.position.y + (boundary.image ? boundary.image.height : boundary.height);
     
                 if (pacmanLeft < boundaryRight && pacmanRight > boundaryLeft && pacmanTop < boundaryBottom && pacmanBottom > boundaryTop) {
-                    return true;
+                    return true; 
                 }
             }
         }
@@ -48,40 +83,57 @@ class Pacman {
         }
     
         return false; // Pas de collision
-    }
-    
-    
-    
-    
-    
+    }    
 
     move() {
-        if (!this.direction) return; 
 
-        let left = parseInt(this.pacman.style.left);
-        let top = parseInt(this.pacman.style.top);
+        let left = parseInt(this.pacman.style.left, 10);
+        let top = parseInt(this.pacman.style.top, 10);
+
 
         let nextLeft = left;
         let nextTop = top;
+        console.log(keys.right.pressed)
+        console.log(lastKey)
 
-        if (this.direction === "ArrowRight") {
+        if (keys.right.pressed && lastKey=='right') {
             nextLeft += this.speed.x;
-        } else if (this.direction === "ArrowLeft") {
+        } else if (keys.left.pressed && lastKey=='left') {
             nextLeft -= this.speed.x;
-        } else if (this.direction === "ArrowUp") {
+        } else if (keys.up.pressed && lastKey=='up') {
             nextTop -= this.speed.y;
-        } else if (this.direction === "ArrowDown") {
+        } else if (keys.down.pressed && lastKey=='down')  {
             nextTop += this.speed.y;
         }
 
-        if (this.checkCollision(nextLeft, nextTop)==true) {
-            this.direction = null; 
-            return;
-        } else {
-        this.pacman.style.left = nextLeft + "px";
-        this.pacman.style.top = nextTop + "px";
+        if (!this.checkCollision(nextLeft, nextTop)) {
+            this.pacman.style.left = nextLeft + "px";
+            this.pacman.style.top = nextTop + "px";
         }
+        
+        requestAnimationFrame(() => this.move());
+
     }
+    
 }
+
+
+const keys = {
+    down: {
+        pressed: false
+    },
+    up: {
+        pressed: false
+    },
+    left: {
+        pressed: false
+    },
+    right: {
+        pressed: false
+    },
+}
+
+
+let lastKey=''
 
 const player = new Pacman("pacman", { x: 45, y: 45 }, { x: 5, y: 5 });
