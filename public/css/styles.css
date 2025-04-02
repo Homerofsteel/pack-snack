@@ -30,19 +30,39 @@ html, body {
 }
 
 #ghost1 {
-    width: 5%;
-    height: 5%;
+    width: 3%;
+    height: auto;
     top: 100px;
     left: 100px;
-    position: absolute;
+    position: absolute;    
+    transform: translate(7px,3.5px)
 }
 
 #ghost2 {
-    width: 5%;
-    height: 5%;
+    width: 2.4%;
+    height: auto;
     top: 100px;
     left: 100px;
-    position: absolute;
+    position: absolute;    
+    transform: translate(-0.5px,2.5px)
+}
+
+#ghost3 {
+    width: 3%;
+    height: auto;
+    top: 100px;
+    left: 100px;
+    position: absolute;    
+    transform: translate(7px,3.5px)
+}
+
+#ghost4 {
+    width: 2.4%;
+    height: auto;
+    top: 100px;
+    left: 100px;
+    position: absolute;    
+    transform: translate(-0.5px,2.5px)
 }
 
 .button-links {

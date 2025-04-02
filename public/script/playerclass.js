@@ -1,5 +1,6 @@
 import {boundaries} from "./map.js";
 import {pellets} from "./map.js";
+import {ghosts} from "./ghostclass.js"
 
 class Pacman {
     constructor(elementId, position, speed) {
@@ -61,7 +62,6 @@ class Pacman {
     
 
     checkCollision(nextX, nextY) {
-        
         // Vérification des collisions avec les boundaries
         for (const boundary of boundaries) {
             if (boundary.id !== "no collision") {
@@ -85,6 +85,31 @@ class Pacman {
         return false; // Pas de collision
     }    
 
+    checkGhostCollision(nextX, nextY) {
+        for (const ghost of ghosts) {
+            if (!ghost || !ghost.ghost) continue;
+    
+            const ghostLeft = ghost.position.x;
+            const ghostRight = ghost.position.x + ghost.ghost.offsetWidth;
+            const ghostTop = ghost.position.y;
+            const ghostBottom = ghost.position.y + ghost.ghost.offsetHeight;
+    
+    
+            if (
+                nextX + this.pacman.offsetWidth > ghostLeft &&
+                nextX < ghostRight &&                          
+                nextY + this.pacman.offsetHeight > ghostTop &&  
+                nextY < ghostBottom                       
+            ) {
+                console.log("Collision detected!");
+                return true; 
+            }
+        }
+        return false;
+    }
+    
+    
+
     move() {
 
         let left = parseInt(this.pacman.style.left, 10);
@@ -93,8 +118,6 @@ class Pacman {
 
         let nextLeft = left;
         let nextTop = top;
-        console.log(keys.right.pressed)
-        console.log(lastKey)
 
         if (keys.right.pressed && lastKey=='right') {
             nextLeft += this.speed.x;
@@ -109,6 +132,11 @@ class Pacman {
         if (!this.checkCollision(nextLeft, nextTop)) {
             this.pacman.style.left = nextLeft + "px";
             this.pacman.style.top = nextTop + "px";
+        }
+
+        if (this.checkGhostCollision(nextLeft,nextTop)) {
+            this.pacman.style.left = "45px";
+            this.pacman.style.lefttop = "45px";
         }
         
         requestAnimationFrame(() => this.move());
@@ -137,3 +165,7 @@ const keys = {
 let lastKey=''
 
 const player = new Pacman("pacman", { x: 45, y: 45 }, { x: 5, y: 5 });
+
+
+
+
