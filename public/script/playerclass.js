@@ -74,16 +74,17 @@ class Pacman {
             }
         }
     
-        // Vérification des collisions avec les pellets
+        return false; // Pas de collision
+    }   
+    
+    checkCollisionPellets(nextX, nextY) {
         for (const pellet of pellets) {
             const pelletLeft = pellet.position.x, pelletRight = pellet.position.x + (pellet.image ? pellet.image.width : pellet.width), pelletTop = pellet.position.y, pelletBottom = pellet.position.y + (pellet.image ? pellet.image.height : pellet.height);
             if (nextX < pelletRight && nextX + this.pacman.offsetWidth > pelletLeft && nextY < pelletBottom && nextY + this.pacman.offsetHeight > pelletTop) {
-                return false; 
+                return true; 
             }
         }
-    
-        return false; // Pas de collision
-    }    
+    }
 
     checkGhostCollision(nextX, nextY) {
         for (const ghost of ghosts) {
