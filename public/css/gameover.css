@@ -1,0 +1,90 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Arial', sans-serif;
+    background-color: #121212;
+    color: white;
+}
+
+.gameover-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.75);
+}
+
+.gameover-box {
+    text-align: center;
+    background: linear-gradient(145deg, #1c1c1c, #333333);
+    border-radius: 20px;
+    padding: 40px 30px;
+    width: 350px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.gameover-title {
+    font-size: 48px;
+    font-weight: bold;
+    color: #ff4081;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.score {
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.gameover-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+button {
+    font-size: 18px;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.retry-btn {
+    background: #4caf50;
+    color: white;
+}
+
+.retry-btn:hover {
+    background: #45a049;
+    transform: scale(1.05);
+}
+
+.home-btn {
+    background: #2196f3;
+    color: white;
+}
+
+.home-btn:hover {
+    background: #1976d2;
+    transform: scale(1.05);
+}
