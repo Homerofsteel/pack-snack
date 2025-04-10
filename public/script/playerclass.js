@@ -78,9 +78,7 @@ class Pacman extends Character {
             this.pacman.style.top = nextTop + "px";
         }
 
-        if (checkCollisionPellets(nextLeft, nextTop, this.pacman, pellets)) {
-            console.log("Pellet mangé !");
-        }
+        checkCollisionPellets(nextLeft, nextTop, this.pacman, pellets)
         
         if (checkGhostCollision(nextLeft,nextTop, this.pacman, ghosts)) {
             this.updatePosition(45,45)
