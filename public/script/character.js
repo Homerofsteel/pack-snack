@@ -20,9 +20,3 @@ export class Character {
         this.element.style.top = `${y}px`;
     }
 }
-
-class Character {
-    constructor(elementId, position, speed) {
-        
-    }
-}
