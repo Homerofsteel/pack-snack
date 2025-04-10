@@ -1,5 +1,6 @@
 import {boundaries} from "./map.js";
 import {pellets} from "./map.js";
+import {ghosts} from "./ghostclass.js"
 
 class Pacman {
     constructor(elementId, position, speed) {
@@ -7,9 +8,7 @@ class Pacman {
         this.position = position;
         this.speed = speed;
         this.direction = null;
-        this.interval = setInterval(() => this.move(), 30); 
 
-        this.pacman.style.position = "absolute";
         this.pacman.style.left = this.position.x + "px";
         this.pacman.style.top = this.position.y +"px";
 
@@ -17,51 +16,51 @@ class Pacman {
     }
 
     init() {
-        document.addEventListener("keydown", (key) => {
-            switch(key) {
+        document.addEventListener("keydown", (event) => {
+            switch(event.key) {
                 case 'ArrowRight': 
-                keys.right.pressed = true
-                lastKey='right'
-                break
+                keys.right.pressed = true;
+                lastKey='right';
+                break;
                 case 'ArrowLeft': 
-                keys.left.pressed = true
-                lastKey='left'
-                break
+                keys.left.pressed = true;
+                lastKey='left';
+                break;
                 case 'ArrowUp': 
-                keys.up.pressed = true
-                lastKey='up'
-                break
+                keys.up.pressed = true;
+                lastKey='up';
+                break;
                 case 'ArrowDown': 
-                keys.down.pressed = true
-                lastKey='down'
-                break
+                keys.down.pressed = true;
+                lastKey='down';
+                break;
 
             }
         });
-        document.addEventListener("keyup", (key) => {
-            switch(key) {
+        document.addEventListener("keyup", (event) => {
+            switch(event.key) {
                 case 'ArrowRight': 
-                keys.right.pressed = false
-                break
+                keys.right.pressed = false;
+                break;
                 case 'ArrowLeft': 
-                keys.left.pressed = false
-                break
+                keys.left.pressed = false;
+                break;
                 case 'ArrowUp': 
-                keys.up.pressed = false
-                break
+                keys.up.pressed = false;
+                break;
                 case 'ArrowDown': 
-                keys.down.pressed = false
-                break
+                keys.down.pressed = false;
+                break;
 
             }
         });
+        this.move()
     }
 
     
     
 
     checkCollision(nextX, nextY) {
-        
         // Vérification des collisions avec les boundaries
         for (const boundary of boundaries) {
             if (boundary.id !== "no collision") {
@@ -85,36 +84,66 @@ class Pacman {
         return false; // Pas de collision
     }    
 
-    move() {
-        if (!this.direction) return; 
+    checkGhostCollision(nextX, nextY) {
+        for (const ghost of ghosts) {
+            if (!ghost || !ghost.ghost) continue;
+    
+            const ghostLeft = ghost.position.x;
+            const ghostRight = ghost.position.x + ghost.ghost.offsetWidth;
+            const ghostTop = ghost.position.y;
+            const ghostBottom = ghost.position.y + ghost.ghost.offsetHeight;
+    
+    
+            if (
+                nextX + this.pacman.offsetWidth > ghostLeft &&
+                nextX < ghostRight &&                          
+                nextY + this.pacman.offsetHeight > ghostTop &&  
+                nextY < ghostBottom                       
+            ) {
+                console.log("Collision detected!");
+                return true; 
+            }
+        }
+        return false;
+    }
+    
+    
 
-        let left = parseInt(this.pacman.style.left);
-        let top = parseInt(this.pacman.style.top);
+    move() {
+
+        let left = parseInt(this.pacman.style.left, 10);
+        let top = parseInt(this.pacman.style.top, 10);
+
 
         let nextLeft = left;
         let nextTop = top;
 
-        if (key.right.pressed && lastKey=='right') {
+        if (keys.right.pressed && lastKey=='right') {
             nextLeft += this.speed.x;
-        } else if (key.left.pressed && lastKey=='left') {
+        } else if (keys.left.pressed && lastKey=='left') {
             nextLeft -= this.speed.x;
-        } else if (key.up.pressed && lastKey=='up') {
+        } else if (keys.up.pressed && lastKey=='up') {
             nextTop -= this.speed.y;
-        } else if (key.down.pressed && lastKey=='down')  {
+        } else if (keys.down.pressed && lastKey=='down')  {
             nextTop += this.speed.y;
         }
 
-        if (this.checkCollision(nextLeft, nextTop)) {
-            this.direction = null; 
-            return;
-        } else {
-        this.pacman.style.left = nextLeft + "px";
-        this.pacman.style.top = nextTop + "px";
+        if (!this.checkCollision(nextLeft, nextTop)) {
+            this.pacman.style.left = nextLeft + "px";
+            this.pacman.style.top = nextTop + "px";
         }
+
+        if (this.checkGhostCollision(nextLeft,nextTop)) {
+            this.pacman.style.left = "45px";
+            this.pacman.style.top = "45px";
+        }
+        
+        requestAnimationFrame(() => this.move());
+
     }
+    
 }
 
-const player = new Pacman("pacman", { x: 45, y: 45 }, { x: 5, y: 5 });
 
 const keys = {
     down: {
@@ -133,3 +162,9 @@ const keys = {
 
 
 let lastKey=''
+
+const player = new Pacman("pacman", { x: 45, y: 45 }, { x: 5, y: 5 });
+
+
+
+
