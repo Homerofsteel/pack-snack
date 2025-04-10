@@ -136,7 +136,7 @@ class Pacman {
 
         if (this.checkGhostCollision(nextLeft,nextTop)) {
             this.pacman.style.left = "45px";
-            this.pacman.style.lefttop = "45px";
+            this.pacman.style.top = "45px";
         }
         
         requestAnimationFrame(() => this.move());
