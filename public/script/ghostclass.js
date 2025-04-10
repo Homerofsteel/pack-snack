@@ -1,21 +1,11 @@
+import { checkCollisionBoundaries} from './collision.js';
 import { boundaries } from "./map.js";
-import { pellets } from "./map.js";
+import { Character } from "./character.js";
 
-export class Ghost {
+export class Ghost extends Character {
     constructor(elementId, position, speed) {
-        this.ghost = document.getElementById(elementId);
-        if (!this.ghost) {
-            console.error(`L'élément avec l'id '${elementId}' n'existe pas.`);
-            return;
-        }
-        this.position = position;
-        this.speed = speed;
-        this.direction = null;
-
-        this.ghost.style.position = "absolute";
-        this.ghost.style.left = this.position.x + "px";
-        this.ghost.style.top = this.position.y + "px";
-
+        super(elementId, position, speed);
+        this.ghost = this.element;
         this.startMoving();
     }
 
@@ -34,33 +24,16 @@ export class Ghost {
         this.direction = directions[Math.floor(Math.random() * directions.length)];
     }
 
-    checkCollision(nextX, nextY) {
-        for (const boundary of boundaries) {
-            if (boundary.id !== "no collision") {
-                const ghostLeft = nextX, ghostRight = nextX + this.ghost.offsetWidth, 
-                      ghostTop = nextY, ghostBottom = nextY + this.ghost.offsetHeight;
-                const boundaryLeft = boundary.position.x, boundaryRight = boundary.position.x + (boundary.image ? boundary.image.width : boundary.width), 
-                      boundaryTop = boundary.position.y, boundaryBottom = boundary.position.y + (boundary.image ? boundary.image.height : boundary.height);
-
-                if (ghostLeft < boundaryRight && ghostRight > boundaryLeft && ghostTop < boundaryBottom && ghostBottom > boundaryTop) {
-                    return true;
-                }
-            }
-        }
-        return false; 
-    }
-
     move = () => {
         let nextX = this.position.x + this.direction.x;
         let nextY = this.position.y + this.direction.y;
 
-        if (this.checkCollision(nextX, nextY)) {
+        if (checkCollisionBoundaries(nextX, nextY, this.ghost, boundaries)) {
             this.setRandomDirection();
         } else {
             this.position.x = nextX;
-            this.position.y = nextY;
-            this.ghost.style.left = this.position.x + "px";
-            this.ghost.style.top = this.position.y + "px";
+        this.position.y = nextY;
+        this.updatePosition(this.position.x, this.position.y);
         }
 
         requestAnimationFrame(this.move);
