@@ -54,6 +54,30 @@ class Pacman extends Character {
         this.move()
     } 
 
+    resetCharacters() {
+        this.updatePosition(45, 45);
+    
+        ghosts.forEach(ghost => {
+            switch (ghost.id) {
+                case "ghost1":
+                    ghost.updatePosition(330, 310);
+                    break;
+                case "ghost2":
+                    ghost.updatePosition(200, 510);
+                    break;
+                case "ghost3":
+                    ghost.updatePosition(420, 300);
+                    break;
+                case "ghost4":
+                    ghost.updatePosition(195, 200);
+                    break;
+            }
+        });
+    
+        console.log("Positions reset!");
+    }
+    
+
     move() {
 
         let left = parseInt(this.pacman.style.left, 10);
@@ -81,7 +105,7 @@ class Pacman extends Character {
         checkCollisionPellets(nextLeft, nextTop, this.pacman, pellets)
         
         if (checkGhostCollision(nextLeft,nextTop, this.pacman, ghosts)) {
-            this.updatePosition(45,45)
+            this.resetCharacters()
             this.life--
         }
 

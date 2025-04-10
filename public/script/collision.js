@@ -44,10 +44,9 @@ export function checkCollisionPellets(nextX, nextY, pacman, pellets) {
     return false; 
 }
 
-// Vérification des collisions avec les fantômes
-export function checkGhostCollision(nextX, nextY, pacman, ghosts) {
+export function checkGhostCollision(nextX, nextY, character, ghosts) {
     for (const ghost of ghosts) {
-        if (!ghost || !ghost.ghost) continue;
+        if (!ghost || !ghost.ghost || ghost.id === character.id) continue;
 
         const ghostLeft = ghost.position.x;
         const ghostRight = ghost.position.x + ghost.ghost.offsetWidth;
@@ -55,14 +54,16 @@ export function checkGhostCollision(nextX, nextY, pacman, ghosts) {
         const ghostBottom = ghost.position.y + ghost.ghost.offsetHeight;
 
         if (
-            nextX + pacman.offsetWidth > ghostLeft &&
+            nextX + character.offsetWidth > ghostLeft &&
             nextX < ghostRight &&
-            nextY + pacman.offsetHeight > ghostTop &&
+            nextY + character.offsetHeight > ghostTop &&
             nextY < ghostBottom
         ) {
-            console.log("Collision detected!");
+            console.log(`Collision avec le fantôme : ${ghost.id}`);
             return true;
         }
     }
     return false;
 }
+
+
