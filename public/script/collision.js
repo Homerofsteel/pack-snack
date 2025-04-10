@@ -44,7 +44,6 @@ export function checkCollisionPellets(nextX, nextY, pacman, pellets) {
     return false; // Pas de collision
 }
 
-
 // Vérification des collisions avec les fantômes
 export function checkGhostCollision(nextX, nextY, pacman, ghosts) {
     for (const ghost of ghosts) {
