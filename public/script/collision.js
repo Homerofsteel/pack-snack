@@ -19,12 +19,12 @@ export function checkCollisionBoundaries(nextX, nextY, pacman, boundaries) {
 
 // Vérification des collisions avec les pellets
 export function checkCollisionPellets(nextX, nextY, pacman, pellets) {
-    for (let i = 0; i < pellets.length; i++) {
+    for (let i = pellets.length - 1; i >= 0; i--) { // Parcourir à l'envers
         const pellet = pellets[i];
         const pelletLeft = pellet.position.x;
-        const pelletRight = pellet.position.x + (pellet.image ? pellet.image.width : pellet.width);
+        const pelletRight = pellet.position.x + pellet.width;
         const pelletTop = pellet.position.y;
-        const pelletBottom = pellet.position.y + (pellet.image ? pellet.image.height : pellet.height);
+        const pelletBottom = pellet.position.y + pellet.height;
 
         if (
             nextX < pelletRight &&
@@ -36,12 +36,14 @@ export function checkCollisionPellets(nextX, nextY, pacman, pellets) {
                 pellet.image.parentNode.removeChild(pellet.image);
             }
 
-            pellets.splice(i, 1);
-            return true;
+            pellets.splice(i, 1); // Supprime uniquement l'élément en collision
+            // score.add(10); // Ajouter au score
+            return true; // Collision détectée
         }
     }
-    return false;
+    return false; // Pas de collision
 }
+
 
 // Vérification des collisions avec les fantômes
 export function checkGhostCollision(nextX, nextY, pacman, ghosts) {
