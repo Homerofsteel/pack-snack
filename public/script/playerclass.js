@@ -86,7 +86,7 @@ class Pacman extends Character {
         }
 
         if (this.life==0) {
-            open("index.html")
+            open("gameover.html","_self")
         }
         
         requestAnimationFrame(() => this.move());
