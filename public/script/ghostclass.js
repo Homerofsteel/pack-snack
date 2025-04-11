@@ -5,10 +5,16 @@ import { Character } from "./character.js";
 export class Ghost extends Character {
     constructor(elementId, position, speed, ghosts) {
         super(elementId, position, speed);
-        this.ghost = this.element;
+        this.ghost = document.getElementById(elementId); 
         this.ghosts = ghosts || [];
-        this.id = elementId
+        this.id = elementId;
         this.startMoving();
+    }
+
+    resetPosition(x, y) {
+        this.position.x = x;
+        this.position.y = y;
+        this.updatePosition(this.position.x, this.position.y); 
     }
 
     startMoving() {
@@ -35,12 +41,12 @@ export class Ghost extends Character {
         let nextX = this.position.x + this.direction.x;
         let nextY = this.position.y + this.direction.y;
 
-        if (checkCollisionBoundaries(nextX, nextY, this.ghost, boundaries, )) {
+        if (checkCollisionBoundaries(nextX, nextY, this.ghost, boundaries)) {
             this.setRandomDirection();
         } else {
             this.position.x = nextX;
-        this.position.y = nextY;
-        this.updatePosition(this.position.x, this.position.y);
+            this.position.y = nextY;
+            this.updatePosition(this.position.x, this.position.y);
         }
 
         if (checkGhostCollision(nextX, nextY, this.ghost, this.ghosts)) {
@@ -50,6 +56,7 @@ export class Ghost extends Character {
         requestAnimationFrame(this.move);
     };
 }
+
 
 export function createGhosts() {
     const ghosts = [];

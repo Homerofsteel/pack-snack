@@ -11,17 +11,17 @@ function getCanvasOffset() {
 }
 
 export function checkCollisionBoundaries(nextX, nextY, pacman, boundaries) {
-    const canvasOffset = getCanvasOffset();  // Récupérer l'offset du canevas
+    const canvasOffset = getCanvasOffset(); 
 
     for (const boundary of boundaries) {
-        const pacmanLeft = nextX + canvasOffset.x;  // Ajouter l'offset pour Pacman
+        const pacmanLeft = nextX + canvasOffset.x;  
         const pacmanRight = pacmanLeft + pacman.offsetWidth;
-        const pacmanTop = nextY + canvasOffset.y;   // Ajouter l'offset pour Pacman
+        const pacmanTop = nextY + canvasOffset.y;   
         const pacmanBottom = pacmanTop + pacman.offsetHeight;
 
-        const boundaryLeft = boundary.position.x + canvasOffset.x;  // Ajouter l'offset pour les limites
+        const boundaryLeft = boundary.position.x + canvasOffset.x; 
         const boundaryRight = boundaryLeft + boundary.width;
-        const boundaryTop = boundary.position.y + canvasOffset.y;   // Ajouter l'offset pour les limites
+        const boundaryTop = boundary.position.y + canvasOffset.y;  
         const boundaryBottom = boundaryTop + boundary.height;
 
         if (
@@ -30,23 +30,23 @@ export function checkCollisionBoundaries(nextX, nextY, pacman, boundaries) {
             pacmanTop < boundaryBottom &&
             pacmanBottom > boundaryTop
         ) {
-            return true; // Collision détectée
+            return true;
         }
     }
-    return false; // Pas de collision
+    return false; 
 }
 
 
 
 
 export function checkCollisionPellets(nextX, nextY, pacman, pellets) {
-    const canvasOffset = getCanvasOffset();  // Récupérer l'offset du canevas
+    const canvasOffset = getCanvasOffset(); 
 
     for (let i = pellets.length - 1; i >= 0; i--) { 
         const pellet = pellets[i];
-        const pelletLeft = pellet.position.x + canvasOffset.x;  // Ajouter l'offset pour les pellets
+        const pelletLeft = pellet.position.x + canvasOffset.x;  
         const pelletRight = pelletLeft + pellet.width;
-        const pelletTop = pellet.position.y + canvasOffset.y;    // Ajouter l'offset pour les pellets
+        const pelletTop = pellet.position.y + canvasOffset.y;    
         const pelletBottom = pelletTop + pellet.height;
 
         if (

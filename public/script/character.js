@@ -5,7 +5,8 @@ export class Character {
             console.error(`L'élément avec l'id '${elementId}' n'existe pas.`);
             return;
         }
-        
+
+        this.initialPosition = { ...position }; 
         this.position = position;
         this.speed = speed;
         this.direction = null;

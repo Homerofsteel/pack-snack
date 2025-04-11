@@ -8,7 +8,6 @@ class Pacman extends Character {
     constructor(elementId, position, speed, pacmanLife) {
         super(elementId, position, speed);
         this.pacman = document.getElementById(elementId);
-        
         this.life = pacmanLife;
         this.currentDirection = null;
         this.nextDirection = null;
@@ -50,31 +49,30 @@ class Pacman extends Character {
 
     resetCharacters() {
         this.updatePosition(45, 45);
-
+        this.currentDirection=null
+    
         ghosts.forEach(ghost => {
-            switch (ghost.id) {
-                case "ghost1":
-                    ghost.updatePosition(330, 310);
-                    break;
-                case "ghost2":
-                    ghost.updatePosition(200, 510);
-                    break;
-                case "ghost3":
-                    ghost.updatePosition(420, 300);
-                    break;
-                case "ghost4":
-                    ghost.updatePosition(195, 200);
-                    break;
+            console.log(`Réinitialisation du fantôme ${ghost.id}`);
+            if (ghost.id === "ghost1") {
+                ghost.resetPosition(309, 315);
+            } else if (ghost.id === "ghost2") {
+                ghost.resetPosition(180, 510);
+            } else if (ghost.id === "ghost3") {
+                ghost.resetPosition(405, 318);
+            } else if (ghost.id === "ghost4") {
+                ghost.resetPosition(180, 200);
             }
         });
-
-        console.log("Positions reset!");
+    
+        console.log("Positions réinitialisées !");
     }
+    
+    
+    
 
     setNextDirection(direction) {
         this.nextDirection = direction;
     
-        // Annule le timer précédent pour éviter une réinitialisation prématurée
         if (this.directionTimeout) {
             clearTimeout(this.directionTimeout);
             this.directionTimeout = null;
@@ -82,11 +80,10 @@ class Pacman extends Character {
     }
     
     startDirectionTimeout() {
-        // Réinitialise la direction après 0,5 seconde
         this.directionTimeout = setTimeout(() => {
             this.nextDirection = null;
             console.log("Next direction reset due to timeout");
-        }, 500); // 500 ms
+        }, 500); 
     }
     
 
