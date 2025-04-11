@@ -1,30 +1,53 @@
 import { pellets } from "./map.js";
-import { boundaries } from "./map.js";
+import { boundaries, canvas } from "./map.js";
 import { ghosts } from "./ghostclass.js";
 
-// Vérification des collisions avec les boundaries
-export function checkCollisionBoundaries(nextX, nextY, pacman, boundaries) {
-    for (const boundary of boundaries) {
-        if (boundary.id !== "no collision") {
-            const pacmanLeft = nextX, pacmanRight = nextX + pacman.offsetWidth, pacmanTop = nextY, pacmanBottom = nextY + pacman.offsetHeight;
-            const boundaryLeft = boundary.position.x, boundaryRight = boundary.position.x + (boundary.image ? boundary.image.width : boundary.width), boundaryTop = boundary.position.y, boundaryBottom = boundary.position.y + (boundary.image ? boundary.image.height : boundary.height);
-    
-            if (pacmanLeft < boundaryRight && pacmanRight > boundaryLeft && pacmanTop < boundaryBottom && pacmanBottom > boundaryTop) {
-                return true;
-            }
-        }
-    }
-    return false;
+function getCanvasOffset() {
+    const canvasRect = canvas.getBoundingClientRect();
+    return {
+        x: canvasRect.left ,
+        y: canvasRect.top,
+    };
 }
 
-// Vérification des collisions avec les pellets
+export function checkCollisionBoundaries(nextX, nextY, pacman, boundaries) {
+    const canvasOffset = getCanvasOffset();  // Récupérer l'offset du canevas
+
+    for (const boundary of boundaries) {
+        const pacmanLeft = nextX + canvasOffset.x;  // Ajouter l'offset pour Pacman
+        const pacmanRight = pacmanLeft + pacman.offsetWidth;
+        const pacmanTop = nextY + canvasOffset.y;   // Ajouter l'offset pour Pacman
+        const pacmanBottom = pacmanTop + pacman.offsetHeight;
+
+        const boundaryLeft = boundary.position.x + canvasOffset.x;  // Ajouter l'offset pour les limites
+        const boundaryRight = boundaryLeft + boundary.width;
+        const boundaryTop = boundary.position.y + canvasOffset.y;   // Ajouter l'offset pour les limites
+        const boundaryBottom = boundaryTop + boundary.height;
+
+        if (
+            pacmanLeft < boundaryRight &&
+            pacmanRight > boundaryLeft &&
+            pacmanTop < boundaryBottom &&
+            pacmanBottom > boundaryTop
+        ) {
+            return true; // Collision détectée
+        }
+    }
+    return false; // Pas de collision
+}
+
+
+
+
 export function checkCollisionPellets(nextX, nextY, pacman, pellets) {
+    const canvasOffset = getCanvasOffset();  // Récupérer l'offset du canevas
+
     for (let i = pellets.length - 1; i >= 0; i--) { 
         const pellet = pellets[i];
-        const pelletLeft = pellet.position.x;
-        const pelletRight = pellet.position.x + pellet.width;
-        const pelletTop = pellet.position.y;
-        const pelletBottom = pellet.position.y + pellet.height;
+        const pelletLeft = pellet.position.x + canvasOffset.x;  // Ajouter l'offset pour les pellets
+        const pelletRight = pelletLeft + pellet.width;
+        const pelletTop = pellet.position.y + canvasOffset.y;    // Ajouter l'offset pour les pellets
+        const pelletBottom = pelletTop + pellet.height;
 
         if (
             nextX < pelletRight &&
@@ -37,12 +60,12 @@ export function checkCollisionPellets(nextX, nextY, pacman, pellets) {
             }
 
             pellets.splice(i, 1); 
-            // score.add(10);
             return true; 
         }
     }
     return false; 
 }
+
 
 export function checkGhostCollision(nextX, nextY, character, ghosts) {
     for (const ghost of ghosts) {

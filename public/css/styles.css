@@ -3,7 +3,7 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
+    overflow: hidden;
     background-color: black;
 }
 
@@ -14,15 +14,24 @@ html, body {
     text-align: center;
 }
 
-#pacman {
-    width:3%;
-    height: auto;
-    top: 200px;
-    left: 50px;
+#gameCanvas {
     position: absolute;
-    animation: manger 1.3s infinite steps(2);
-    transform: translate(7px,3.5px)
+    border: 2px solid black;
 }
+
+#pacman-container {
+    width: 44.8px; 
+    height: 44.8px; 
+    position: absolute;
+    overflow: hidden;
+}
+
+  #pacman {
+    width: 100%; 
+    height: 100%;
+    position: absolute;
+    animation: manger 1.3s infinite steps(2); 
+  }
 
 @keyframes manger {
     0% { content: url('../Images/standing-rick.png'); }
@@ -30,8 +39,8 @@ html, body {
 }
 
 #ghost1 {
-    width: 3%;
-    height: auto;
+    width:44.8px;
+    height: 44.8px;
     top: 100px;
     left: 100px;
     position: absolute;    
@@ -39,8 +48,8 @@ html, body {
 }
 
 #ghost2 {
-    width: 2.4%;
-    height: auto;
+    width:44.8px;
+    height: 44.8px;
     top: 100px;
     left: 100px;
     position: absolute;    
@@ -48,8 +57,8 @@ html, body {
 }
 
 #ghost3 {
-    width: 3%;
-    height: auto;
+    width:44.8px;
+    height: 44.8px;
     top: 100px;
     left: 100px;
     position: absolute;    
@@ -57,8 +66,8 @@ html, body {
 }
 
 #ghost4 {
-    width: 2.4%;
-    height: auto;
+    width:44.8px;
+    height: 44.8px;
     top: 100px;
     left: 100px;
     position: absolute;    

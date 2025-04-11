@@ -35,7 +35,7 @@ export class Ghost extends Character {
         let nextX = this.position.x + this.direction.x;
         let nextY = this.position.y + this.direction.y;
 
-        if (checkCollisionBoundaries(nextX, nextY, this.ghost, boundaries)) {
+        if (checkCollisionBoundaries(nextX, nextY, this.ghost, boundaries, )) {
             this.setRandomDirection();
         } else {
             this.position.x = nextX;
@@ -53,10 +53,10 @@ export class Ghost extends Character {
 
 export function createGhosts() {
     const ghosts = [];
-    ghosts.push(new Ghost("ghost1", { x: 330, y: 310 }, { x: 1.5, y: 1.5 }, ghosts));
-    ghosts.push(new Ghost("ghost2", { x: 200, y: 510 }, { x: 1.5, y: 1.5 }, ghosts));
-    ghosts.push(new Ghost("ghost3", { x: 420, y: 300 }, { x: 1.5, y: 1.5 }, ghosts));
-    ghosts.push(new Ghost("ghost4", { x: 195, y: 200 }, { x: 1.5, y: 1.5 }, ghosts));
+    ghosts.push(new Ghost("ghost1", { x: 309, y: 315 }, { x: 1, y: 1 }, ghosts));
+    ghosts.push(new Ghost("ghost2", { x: 180, y: 510 }, { x: 1, y: 1 }, ghosts));
+    ghosts.push(new Ghost("ghost3", { x: 405, y: 318 }, { x: 1, y: 1 }, ghosts));
+    ghosts.push(new Ghost("ghost4", { x: 180, y: 200 }, { x: 1, y: 1 }, ghosts));
 
     return ghosts;
 }
