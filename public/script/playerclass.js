@@ -12,6 +12,9 @@ class Pacman extends Character {
         this.currentDirection = null;
         this.nextDirection = null;
         this.directionTimeout = null;
+        this.moveSound = new Audio('../Audio/move.wav');
+        this.moveSound.loop = true;
+this.moveSoundPlaying = false;
         this.init();
     }
 
@@ -120,6 +123,16 @@ class Pacman extends Character {
         if (!checkCollisionBoundaries(nextLeft, nextTop, this.pacman, boundaries)) {
             this.pacman.style.left = nextLeft + "px";
             this.pacman.style.top = nextTop + "px";
+            if (!this.moveSoundPlaying) {
+                this.moveSound.play();
+                this.moveSoundPlaying = true;
+            }
+        } else {
+            if (this.moveSoundPlaying) {
+                this.moveSound.pause();
+                this.moveSound.currentTime = 0;
+                this.moveSoundPlaying = false;
+            }
         }
 
         checkCollisionPellets(nextLeft, nextTop, this.pacman, pellets);

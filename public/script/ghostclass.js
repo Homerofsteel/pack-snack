@@ -27,6 +27,27 @@ export class Ghost extends Character {
         this.direction.y = -this.direction.y;
     }
 
+    isAtIntersection(position) {
+        const directions = [
+            { x: this.speed.x, y: 0 },
+            { x: -this.speed.x, y: 0 },
+            { x: 0, y: this.speed.y },
+            { x: 0, y: -this.speed.y }
+        ];
+        let possibleDirections = 0;
+    
+        directions.forEach(direction => {
+            const nextX = position.x + direction.x;
+            const nextY = position.y + direction.y;
+            if (!checkCollisionBoundaries(nextX, nextY, this.ghost, boundaries)) {
+                possibleDirections++;
+            }
+        });
+    
+        return possibleDirections > 2; 
+    }
+    
+
     setRandomDirection() {
         const directions = [
             { x: this.speed.x, y: 0 },
@@ -40,30 +61,35 @@ export class Ghost extends Character {
     move = () => {
         let nextX = this.position.x + this.direction.x;
         let nextY = this.position.y + this.direction.y;
-
+    
         if (checkCollisionBoundaries(nextX, nextY, this.ghost, boundaries)) {
-            this.setRandomDirection();
+            this.setRandomDirection(); 
         } else {
             this.position.x = nextX;
             this.position.y = nextY;
             this.updatePosition(this.position.x, this.position.y);
+    
+            if (this.isAtIntersection(this.position)) {
+                this.setRandomDirection();
+            }
         }
-
+    
         if (checkGhostCollision(nextX, nextY, this.ghost, this.ghosts)) {
             this.reverseDirection();
         }
-
+    
         requestAnimationFrame(this.move);
     };
+    
 }
 
 
 export function createGhosts() {
     const ghosts = [];
     ghosts.push(new Ghost("ghost1", { x: 309, y: 315 }, { x: 1, y: 1 }, ghosts));
-    ghosts.push(new Ghost("ghost2", { x: 180, y: 510 }, { x: 1, y: 1 }, ghosts));
+    ghosts.push(new Ghost("ghost2", { x: 180, y: 490 }, { x: 1, y: 1 }, ghosts));
     ghosts.push(new Ghost("ghost3", { x: 405, y: 318 }, { x: 1, y: 1 }, ghosts));
-    ghosts.push(new Ghost("ghost4", { x: 180, y: 200 }, { x: 1, y: 1 }, ghosts));
+    ghosts.push(new Ghost("ghost4", { x: 180, y: 225 }, { x: 1, y: 1 }, ghosts));
 
     return ghosts;
 }
