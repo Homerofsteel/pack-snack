@@ -1,6 +1,7 @@
 import { pellets } from "./map.js";
 import { boundaries, canvas } from "./map.js";
 import { ghosts } from "./ghostclass.js";
+import {score} from "./score.js";
 
 // Vérifie les collisions avec les murs
 export function checkCollisionBoundaries(nextX, nextY, pacman, boundaries) {
@@ -45,7 +46,8 @@ export function checkCollisionPellets(nextX, nextY, pacman, pellets) {
             if (pellet.image && pellet.image.parentNode) {
                 pellet.image.parentNode.removeChild(pellet.image);
             }
-
+            
+            score.add(10);
             pellets.splice(i, 1);
             return true;
         }
