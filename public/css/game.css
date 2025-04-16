@@ -42,7 +42,11 @@ body, html {
 }
 
 #ghost1, #ghost2, #ghost3, #ghost4 {
-    transform: translateX(5%) translateY(15%);
+    transform: translateX(5%) translateY(2%);
+}
+
+#ghost2, #ghost3, #ghost4 {
+    transform: scale(1.1);
 }
 
 @keyframes manger {
@@ -55,10 +59,15 @@ body, html {
     height: 100%;
 }
 
-#score {
-    color: white;
+
+#bottom-ui {
     position: absolute;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
+    display: flex;
+    gap: 30px;
+    color: white;
+    font-size: 25px;
 }
+

@@ -1,10 +1,10 @@
 class Score {
   constructor() {
-      this.value = -10; 
+      this.value = 0; 
   }
 
   reset() {
-      this.value = -10; 
+      this.value = 0; 
       this.updateScoreDisplay(); 
   }
 
