@@ -1,5 +1,8 @@
+import score from "./score";
+import { EndScore } from "./endScore";
+
 document.addEventListener("DOMContentLoaded", function() {
-    const finalScore = 1500;
+    EndScore.finalscore(score.value);
     document.getElementById("final-score")
     document.getElementById("retry-button").addEventListener("click", function() {
         window.location.href = "game.html";
