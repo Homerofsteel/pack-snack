@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Mario';
+    src: url('./MarioFont.TTF') format('truetype');
+}
+
 .page-title {
     font-size: 50px;
     padding-right: 15px;
@@ -37,17 +42,32 @@ body, html {
     background-color: black;
 }
 
-#pacman-container, #ghost1, #ghost2, #ghost3, #ghost4 {
+#pacman, #pacman-godmod, #ghost1, #ghost2, #ghost3, #ghost4 {
     position: absolute;
     width: 44.8px;
     height: 44.8px;
     z-index: 2;
 }
+@keyframes rainbow {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+  }
 
-#pacman-container {
-    top: 50%;
-    left: 50%;
-}
+  @keyframes spriteAnimation {
+    0% {
+      content: url("../Images/standing-rick.png");
+    }
+    50% {
+      content: url("../Images/drunk-rick.png");
+    }
+    100% {
+      content: url("../Images/standing-rick.png");
+    }
+  }
+
+.godmod {
+    animation: rainbow 2s linear infinite, spriteAnimation 1s steps(1) infinite;
+  }
 
 #ghost1, #ghost2, #ghost3, #ghost4 {
     transform: translateX(5%) translateY(2%);
@@ -57,32 +77,44 @@ body, html {
     transform: scale(1.1);
 }
 
-@keyframes manger {
-    0% { content: url('../Images/standing-rick.png'); }
-    100% { content: url('../Images/drunk-rick.png'); }
-}
-
-#pacman {
-    width: 100%;
-    height: 100%;
-}
-
-#score {
-    color: rgb(185, 1, 1);
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-
 #bottom-ui {
     position: absolute;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 12px 24px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    font-family: Mario;
+    font-size: 20px;
+    color: #fff;
+    z-index: 10;
+    gap: 50px;
+    min-width: 350px;
 }
 
+#score {
+    display: flex;
+    justify-content: flex-start;
+    color: #ff4d4d;
+    text-shadow: 1px 1px 2px black;
+    white-space: nowrap;
+    width: 120px;
+}
+
+
+#pacman-lives {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #00ffcc;
+    text-shadow: 1px 1px 2px black;
+    white-space: nowrap;
+}
 
 #wallpaper {
     position: absolute;

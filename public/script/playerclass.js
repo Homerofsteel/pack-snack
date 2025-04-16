@@ -3,6 +3,7 @@ import { boundaries } from "./map.js";
 import { pellets } from "./map.js";
 import { ghosts } from "./ghostclass.js";
 import { Character } from "./character.js";
+import { score } from './score.js';
 
 class Pacman extends Character {
     constructor(elementId, position, speed, pacmanLife) {
@@ -14,15 +15,21 @@ class Pacman extends Character {
         this.directionTimeout = null;
         this.moveSound = new Audio('../Audio/move.wav');
         this.moveSound.loop = true;
-        this.moveSound.volume = 0.4;
+        this.moveSound.volume = 0.25;
         this.moveSoundPlaying = false;
         this.damageSound = new Audio('../Audio/damage.mp3');
         this.damageSoundPlaying = false;
+        this.PowerUpSound = new Audio('../Audio/powerup.mp3');
+        this.music = new Audio('../Audio/music.mp3');
+        this.music.play();
+        this.bite = new Audio('../Audio/bite.mp3')
         this.isPaused = false;
+        this.godmod=false;
         this.init();
     }
 
     init() {
+
         document.addEventListener("keydown", (event) => {
             if (!this.isPaused) {
             switch (event.key) {
@@ -60,6 +67,21 @@ class Pacman extends Character {
 
     }
 
+    setGodMod() {
+            this.godmod = true;
+            this.PowerUpSound.play()
+            this.music.pause()
+            this.pacman.classList.add("godmod");
+    }
+
+    resetGodMod() {
+        this.godmod=false
+            this.PowerUpSound.pause()
+            this.music.play()
+            this.pacman.classList.remove("godmod");
+    }
+    
+
     updateLivesDisplay() {
         const livesContainer = document.getElementById("pacman-lives");
         livesContainer.innerHTML = "";
@@ -88,13 +110,13 @@ class Pacman extends Character {
         ghosts.forEach(ghost => {
             console.log(`Réinitialisation du fantôme ${ghost.id}`);
             if (ghost.id === "ghost1") {
-                ghost.resetPosition(309, 315);
+                ghost.resetPosition(720, 230);
             } else if (ghost.id === "ghost2") {
-                ghost.resetPosition(180, 490);
+                ghost.resetPosition(225, 360);
             } else if (ghost.id === "ghost3") {
-                ghost.resetPosition(405, 318);
+                ghost.resetPosition(720, 360);
             } else if (ghost.id === "ghost4") {
-                ghost.resetPosition(180, 225);
+                ghost.resetPosition(225, 225);
             }
         });
     
@@ -117,6 +139,15 @@ class Pacman extends Character {
             console.log("Next direction reset due to timeout");
         }, 500); 
     }
+
+    updateImage() {
+        if (this.isPaused) {
+            this.pacman.src = "../Images/drunk-rick.png";
+        } else {
+            this.pacman.src = "../Images/standing-rick.png"; 
+        }
+    }
+    
     
 
     move() {
@@ -166,29 +197,56 @@ class Pacman extends Character {
                 }
             }
     
-            checkCollisionPellets(nextLeft, nextTop, this.pacman, pellets);
-    
-            if (checkGhostCollision(nextLeft, nextTop, this.pacman, ghosts)) {
-                this.moveSound.pause();
-                this.moveSound.currentTime = 0;
-                this.moveSoundPlaying = false;
-                this.damageSound.play();
-    
-                this.isPaused = true;
-    
-                setTimeout(() => {
-                    this.resetCharacters();
-                    this.life--;
-    
-                    if (this.life === 0) {
-                        open("gameover.html", "_self");
-                    } else {
-                        this.isPaused = false;
-                    }
-    
-                    this.updateLivesDisplay();
-                }, 1000);
+            checkCollisionPellets(nextLeft, nextTop, this.pacman, pellets)
+
+
+                
+            const collidedGhost = checkGhostCollision(nextLeft, nextTop, this.pacman, ghosts);
+
+            console.log(this.godmod)
+
+if (collidedGhost) {
+    if (!this.godmod) {
+        this.moveSound.pause();
+        this.moveSound.currentTime = 0;
+        this.moveSoundPlaying = false;
+        this.damageSound.play();
+
+        this.isPaused = true;
+        this.updateImage();
+
+        setTimeout(() => {
+            this.resetCharacters();
+            this.life--;
+
+            if (this.life === 0) {
+                open("gameover.html", "_self");
+            } else {
+                this.isPaused = false;
+                this.updateImage();
             }
+
+            this.updateLivesDisplay();
+        }, 1000);
+    } else {
+        this.bite.play()
+        score.add(50);
+        switch (collidedGhost.id) {
+            case "ghost1":
+                collidedGhost.resetPosition(309, 315);
+                break;
+            case "ghost2":
+                collidedGhost.resetPosition(180, 490);
+                break;
+            case "ghost3":
+                collidedGhost.resetPosition(405, 318);
+                break;
+            case "ghost4":
+                collidedGhost.resetPosition(180, 225);
+                break;
+        }
+    }
+}
         }
     
         requestAnimationFrame(() => this.move());
@@ -196,4 +254,4 @@ class Pacman extends Character {
     
 }
 
-const player = new Pacman("pacman-container", { x: 45, y: 45 }, { x: 1, y: 1 }, 3);
+export const player = new Pacman("pacman", { x: 45, y: 45 }, { x: 1, y: 1 }, 3);
