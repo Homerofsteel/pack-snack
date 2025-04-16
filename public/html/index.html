@@ -8,15 +8,24 @@
 </head>
 <body>
     <video autoplay muted loop id="backgroundvideo">
-        <source src="../css/pacman.mp4" type="video/mp4">
-      </video>
+        <source src="../css/intro.mp4" type="video/mp4">
+    </video>
     <h1 class="page-title">Main Page</h1>
-    <div class="button-links">
+    <div class="button-links" id="buttonLinks">
         <div class="button-link"><a href="../html/game.html">Start The Game</a></div>
-        <div class="button-link"><a href="settings.html">(WIP) Options</a></div>
-        <div class="button-link"><a href="score.html">(WIP) Tableau des Scores</a></div>
+        <div class="button-link"><a href="javascript:void(0);">Options</a></div>    </div>
+
+    <div id="optionsDiv">
+        <h2>Options</h2>
+        
+        <div class="toggle-container">
+            <input type="checkbox" id="musicToggle">
+            <label for="musicToggle">Start Main Music</label>
+        </div>
+
+        <button>Close</button>
     </div>
+
+    <script type="module" src="../script/index.js"></script>
 </body>
-    
-</script>
 </html>

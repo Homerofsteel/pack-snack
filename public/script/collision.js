@@ -1,6 +1,5 @@
-import { pellets } from "./map.js";
-import { boundaries, canvas } from "./map.js";
 import { ghosts } from "./ghostclass.js";
+import { player } from "./playerclass.js"
 import {score} from "./score.js";
 
 // Vérifie les collisions avec les murs
@@ -36,6 +35,7 @@ export function checkCollisionPellets(nextX, nextY, pacman, pellets) {
         const pelletRight = pelletLeft + pellet.width;
         const pelletTop = pellet.position.y;
         const pelletBottom = pelletTop + pellet.height;
+        
 
         if (
             nextX < pelletRight &&
@@ -46,16 +46,34 @@ export function checkCollisionPellets(nextX, nextY, pacman, pellets) {
             if (pellet.image && pellet.image.parentNode) {
                 pellet.image.parentNode.removeChild(pellet.image);
             }
-            
-            score.add(10);
-            pellets.splice(i, 1);
-            return true;
+            if (pellet.id === "no collision") {
+                score.add(10);
+                pellets.splice(i, 1);
+
+
+            } else if (pellet.id === "gun") {
+                pellets.splice(i, 1);
+                player.setGodMod();
+                ghosts.forEach(ghost => {
+                    ghost.SwitchImages(); 
+                });
+                if (player.godmodTimer) {
+                    clearTimeout(player.godmodTimer);
+                }
+                pacman.godmodTimer = setTimeout(() => {
+                    player.resetGodMod();
+                    ghosts.forEach(ghost => {
+                        ghost.restoreImage();
+                    });
+                }, 10000);
+            }
         }
     }
     return false;
 }
 
-// Vérifie la collision entre Pacman et un fantôme
+
+// Renvoie le fantôme en collision avec Pacman, ou null s’il n’y en a pas
 export function checkGhostCollision(nextX, nextY, character, ghosts) {
     for (const ghost of ghosts) {
         if (!ghost || !ghost.ghost || ghost.id === character.id) continue;
@@ -72,8 +90,8 @@ export function checkGhostCollision(nextX, nextY, character, ghosts) {
             nextY < ghostBottom
         ) {
             console.log(`Collision avec le fantôme : ${ghost.id}`);
-            return true;
+            return ghost;
         }
     }
-    return false;
+    return null; 
 }

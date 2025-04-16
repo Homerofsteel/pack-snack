@@ -55,6 +55,44 @@ export class Ghost extends Character {
         this.lastDirection = this.direction;
     }
 
+    SwitchImages() {
+        switch (this.id) {
+            case "ghost1":
+                this.ghost.src = "../Images/deadboo.png";
+                break;
+            case "ghost2":
+                this.ghost.src = "../Images/deadpeepa.png";
+                break;
+            case "ghost3":
+                this.ghost.src = "../Images/deadghost.png";
+                break;
+            case "ghost4":
+                this.ghost.src = "../Images/deadduskull.png";
+                break;
+            default:
+                console.warn("ID inconnu pour le fantôme :", this.id);
+                break;
+        }
+    }
+
+    restoreImage() {
+        switch (this.id) {
+            case "ghost1":
+                this.ghost.src = "../Images/boo.png";
+                break;
+            case "ghost2":
+                this.ghost.src = "../Images/peepa.png";
+                break;
+            case "ghost3":
+                this.ghost.src = "../Images/ghost.png";
+                break;
+            case "ghost4":
+                this.ghost.src = "../Images/duskull.png";
+                break;
+        }
+    }
+    
+
     move = () => {
         const nextX = this.position.x + this.direction.x;
         const nextY = this.position.y + this.direction.y;
