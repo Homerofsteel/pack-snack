@@ -14,7 +14,8 @@ class Pacman extends Character {
         this.directionTimeout = null;
         this.moveSound = new Audio('../Audio/move.wav');
         this.moveSound.loop = true;
-this.moveSoundPlaying = false;
+        this.moveSound.volume = 0.2;
+        this.moveSoundPlaying = false;
         this.init();
     }
 
@@ -48,22 +49,45 @@ this.moveSoundPlaying = false;
         });
 
         this.move();
+        this.updateLivesDisplay();
+
     }
+
+    updateLivesDisplay() {
+        const livesContainer = document.getElementById("pacman-lives");
+        livesContainer.innerHTML = "";
+    
+        for (let i = 0; i < this.life; i++) {
+            const img = document.createElement("img");
+            img.src = "../Images/standing-rick.png";
+            img.alt = "pacman-life";
+            img.style.width = "30px";
+            img.style.marginRight = "5px"; 
+            livesContainer.appendChild(img);
+        }
+    }
+    
 
     resetCharacters() {
         this.updatePosition(45, 45);
-        this.currentDirection=null
+        this.currentDirection = null;
+    
+        if (this.moveSoundPlaying) {
+            this.moveSound.pause();
+            this.moveSound.currentTime = 0; 
+            this.moveSoundPlaying = false;
+        }
     
         ghosts.forEach(ghost => {
             console.log(`Réinitialisation du fantôme ${ghost.id}`);
             if (ghost.id === "ghost1") {
                 ghost.resetPosition(309, 315);
             } else if (ghost.id === "ghost2") {
-                ghost.resetPosition(180, 510);
+                ghost.resetPosition(180, 490);
             } else if (ghost.id === "ghost3") {
                 ghost.resetPosition(405, 318);
             } else if (ghost.id === "ghost4") {
-                ghost.resetPosition(180, 200);
+                ghost.resetPosition(180, 225);
             }
         });
     
@@ -71,8 +95,6 @@ this.moveSoundPlaying = false;
     }
     
     
-    
-
     setNextDirection(direction) {
         this.nextDirection = direction;
     
@@ -93,37 +115,38 @@ this.moveSoundPlaying = false;
     move() {
         let left = parseInt(this.pacman.style.left, 10);
         let top = parseInt(this.pacman.style.top, 10);
-
-        const directionOffsets = {
+    
+        const direction = {
             right: { x: this.speed.x, y: 0 },
             left: { x: -this.speed.x, y: 0 },
             up: { x: 0, y: -this.speed.y },
             down: { x: 0, y: this.speed.y },
         };
-
+    
         if (this.nextDirection) {
-            const offset = directionOffsets[this.nextDirection];
+            const offset = direction[this.nextDirection];
             const testLeft = left + offset.x;
             const testTop = top + offset.y;
-
+    
             if (!checkCollisionBoundaries(testLeft, testTop, this.pacman, boundaries)) {
                 this.currentDirection = this.nextDirection;
                 this.nextDirection = null;
             }
         }
-
+    
         let nextLeft = left;
         let nextTop = top;
-
+    
         if (this.currentDirection === 'right') nextLeft += this.speed.x;
         else if (this.currentDirection === 'left') nextLeft -= this.speed.x;
         else if (this.currentDirection === 'up') nextTop -= this.speed.y;
         else if (this.currentDirection === 'down') nextTop += this.speed.y;
-
+    
         if (!checkCollisionBoundaries(nextLeft, nextTop, this.pacman, boundaries)) {
             this.pacman.style.left = nextLeft + "px";
             this.pacman.style.top = nextTop + "px";
-            if (!this.moveSoundPlaying) {
+    
+            if (!this.moveSoundPlaying && this.currentDirection !== null) {
                 this.moveSound.play();
                 this.moveSoundPlaying = true;
             }
@@ -134,20 +157,27 @@ this.moveSoundPlaying = false;
                 this.moveSoundPlaying = false;
             }
         }
-
+    
         checkCollisionPellets(nextLeft, nextTop, this.pacman, pellets);
-
+    
         if (checkGhostCollision(nextLeft, nextTop, this.pacman, ghosts)) {
+            this.moveSound.pause();
+            this.moveSound.currentTime = 0;
+            this.moveSoundPlaying = false;
+    
             this.resetCharacters();
             this.life--;
+            if (this.life === 0) {
+                open("gameover.html", "_self");
+            }
+            this.updateLivesDisplay();
         }
-
-        if (this.life === 0) {
-            open("gameover.html", "_self");
-        }
-
+    
         requestAnimationFrame(() => this.move());
     }
+    
+
+    
 }
 
 const player = new Pacman("pacman-container", { x: 45, y: 45 }, { x: 1, y: 1 }, 3);
