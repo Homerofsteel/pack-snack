@@ -172,11 +172,6 @@ class Pacman extends Character {
             }
             this.updateLivesDisplay();
         }
-
-     
-        setInterval(() => {
-            pacman.move();
-        }, 20); // Faster update loop
     
         requestAnimationFrame(() => this.move());
     }
