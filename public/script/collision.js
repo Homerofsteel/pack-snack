@@ -73,7 +73,6 @@ export function checkCollisionPellets(nextX, nextY, pacman, pellets) {
 }
 
 
-
 // Renvoie le fantôme en collision avec Pacman, ou null s’il n’y en a pas
 export function checkGhostCollision(nextX, nextY, character, ghosts) {
     for (const ghost of ghosts) {
@@ -91,8 +90,8 @@ export function checkGhostCollision(nextX, nextY, character, ghosts) {
             nextY < ghostBottom
         ) {
             console.log(`Collision avec le fantôme : ${ghost.id}`);
-            return ghost; // ⬅ renvoie le fantôme concerné
+            return ghost;
         }
     }
-    return null; // ⬅ aucun fantôme en collision
+    return null; 
 }
