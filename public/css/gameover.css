@@ -2,143 +2,98 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: cursive, sans-serif;
 }
 
-body, html {
-    height: 100%;
+body {
+    background: linear-gradient(135deg, #0f0f0f, #1c1c1c);
+    color: #ffffff;
     display: flex;
-    justify-content: center;
     align-items: center;
-    font-family: 'Arial', sans-serif;
-    background-color: #121212;
-    color: white;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
 }
+
 
 .gameover-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.75);
+    text-align: center;
+    padding: 3rem;
 }
 
 .gameover-box {
-    text-align: center;
-    background: linear-gradient(145deg, #1c1c1c, #333333);
-    border-radius: 20px;
-    padding: 40px 30px;
-    width: 350px;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    background: #222;
+    border: 6px solid #ff004c;
+    border-radius: 24px;
+    padding: 60px 305px;
+    box-shadow: 0 0 35px #ff004c;
+    animation: fadeIn 1s ease-out;
 }
 
 .gameover-title {
-    font-size: 48px;
+    font-size: 3rem;
+    color: #ff004c;
+    margin-bottom: 45px;
+    text-shadow: 0 0 15px #ff004c;
+    animation: pulse 1.5s infinite alternate;
+}
+
+.gameover-score {
+    font-size: 2.5rem;
+    color: #f1f1f1;
+    margin-bottom: 35px;
     font-weight: bold;
-    color: #ff4081;
-    margin-bottom: 20px;
     text-transform: uppercase;
-    letter-spacing: 3px;
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
-}
-
-.score {
-    font-size: 24px;
-    color: #fff;
-    margin-bottom: 20px;
+    letter-spacing: 2px;
+    background: linear-gradient(45deg, #ff004c, #ff7f00);
+    -webkit-background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 10px rgba(255, 0, 76, 0.8), 0 0 20px rgba(255, 0, 76, 0.8);
 }
 
 .gameover-buttons {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 25px;
 }
 
-button {
-    font-size: 18px;
-    padding: 15px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-}
-
-.retry-btn {
-    background: #4caf50;
-    color: white;
-}
-
-.retry-btn:hover {
-    background: #45a049;
-    transform: scale(1.05);
-}
-
+.retry-btn,
 .home-btn {
-    background: #2196f3;
+    background-color: #ff004c;
     color: white;
+    border: none;
+    padding: 20px 30px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: transform 0.2s, background 0.3s;
+    box-shadow: 0 0 15px #ff004c;
 }
 
+.retry-btn:hover,
 .home-btn:hover {
-    background: #1976d2;
-    transform: scale(1.05);
+    background-color: #e00040;
+    transform: scale(1.1);
 }
 
-.button-links {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    max-width: 80%;
-    margin: 0 auto;
-    padding: 20px;
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        text-shadow: 0 0 15px #ff004c;
+    }
+    100% {
+        transform: scale(1.1);
+        text-shadow: 0 0 25px #ff004c;
+    }
 }
 
-.button-link {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    width: 90%;
-    min-height: 100px;
-    height: auto;
-    margin: auto;
-    border: 2px solid black;
-    border-radius: 15px;
-    background-color: white;
-    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
-}
-
-.button-link:hover {
-    background-color: #d3d3d3;
-    transform: translateY(-4px);
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.25);
-}
-
-.button-link:active {
-    background-color: #b0b0b0;
-    transform: translateY(2px);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-.button-link a {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    text-decoration: none;
-    color: black;
-    padding: 20px;
-    font-size: 22px;
-    text-align: center;
-    font-family: Mario256, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

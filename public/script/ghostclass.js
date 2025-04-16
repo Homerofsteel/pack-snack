@@ -80,10 +80,10 @@ export class Ghost extends Character {
 
 export function createGhosts() {
     const ghosts = [];
-    ghosts.push(new Ghost("ghost1", { x: 309, y: 315 }, { x: 1, y: 1 }, ghosts));
-    ghosts.push(new Ghost("ghost2", { x: 180, y: 490 }, { x: 1, y: 1 }, ghosts));
-    ghosts.push(new Ghost("ghost3", { x: 405, y: 318 }, { x: 1, y: 1 }, ghosts));
-    ghosts.push(new Ghost("ghost4", { x: 180, y: 225 }, { x: 1, y: 1 }, ghosts));
+    ghosts.push(new Ghost("ghost1", { x: 720, y: 230 }, { x: 1, y: 1 }, ghosts));
+    ghosts.push(new Ghost("ghost2", { x: 225, y: 360 }, { x: 1, y: 1 }, ghosts));
+    ghosts.push(new Ghost("ghost3", { x: 720, y: 360 }, { x: 1, y: 1 }, ghosts));
+    ghosts.push(new Ghost("ghost4", { x: 225, y: 225 }, { x: 1, y: 1 }, ghosts));
     return ghosts;
 }
 

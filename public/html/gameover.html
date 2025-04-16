@@ -10,13 +10,17 @@
     <div class="gameover-container">
         <div class="gameover-box">
             <h1 class="gameover-title">GAME OVER</h1>
-            <div id="score">Score: 0</div>
+            <div class="gameover-score">Score: 0</div>
             <div class="gameover-buttons">
                 <button id="retry-button" class="retry-btn">Rejouer</button>
                 <button id="home-button" class="home-btn">Page d'Accueil</button>
             </div>
         </div>
     </div>
+    <script>
+        var gameoversound = new Audio('../Audio/gameover.mp3');
+        gameoversound.play();
+    </script>
 
     <script type="module" src="../script/gameover.js"></script>
 </body>

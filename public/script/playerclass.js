@@ -14,13 +14,17 @@ class Pacman extends Character {
         this.directionTimeout = null;
         this.moveSound = new Audio('../Audio/move.wav');
         this.moveSound.loop = true;
-        this.moveSound.volume = 0.2;
+        this.moveSound.volume = 0.4;
         this.moveSoundPlaying = false;
+        this.damageSound = new Audio('../Audio/damage.mp3');
+        this.damageSoundPlaying = false;
+        this.isPaused = false;
         this.init();
     }
 
     init() {
         document.addEventListener("keydown", (event) => {
+            if (!this.isPaused) {
             switch (event.key) {
                 case 'ArrowRight':
                     this.nextDirection = 'right';
@@ -34,10 +38,12 @@ class Pacman extends Character {
                 case 'ArrowDown':
                     this.nextDirection = 'down';
                     break;
-            }
+            
+                }    }
         });
 
         document.addEventListener("keyup", (event) => {
+            if (!this.isPaused) {
             switch (event.key) {
                 case 'ArrowRight':
                 case 'ArrowLeft':
@@ -46,6 +52,7 @@ class Pacman extends Character {
                     this.startDirectionTimeout();
                     break;
             }
+        }
         });
 
         this.move();
@@ -123,60 +130,69 @@ class Pacman extends Character {
             down: { x: 0, y: this.speed.y },
         };
     
-        if (this.nextDirection) {
-            const offset = direction[this.nextDirection];
-            const testLeft = left + offset.x;
-            const testTop = top + offset.y;
+        if (!this.isPaused) {
+            if (this.nextDirection) {
+                const offset = direction[this.nextDirection];
+                const testLeft = left + offset.x;
+                const testTop = top + offset.y;
     
-            if (!checkCollisionBoundaries(testLeft, testTop, this.pacman, boundaries)) {
-                this.currentDirection = this.nextDirection;
-                this.nextDirection = null;
+                if (!checkCollisionBoundaries(testLeft, testTop, this.pacman, boundaries)) {
+                    this.currentDirection = this.nextDirection;
+                    this.nextDirection = null;
+                }
             }
-        }
     
-        let nextLeft = left;
-        let nextTop = top;
+            let nextLeft = left;
+            let nextTop = top;
     
-        if (this.currentDirection === 'right') nextLeft += this.speed.x;
-        else if (this.currentDirection === 'left') nextLeft -= this.speed.x;
-        else if (this.currentDirection === 'up') nextTop -= this.speed.y;
-        else if (this.currentDirection === 'down') nextTop += this.speed.y;
+            if (this.currentDirection === 'right') nextLeft += this.speed.x;
+            else if (this.currentDirection === 'left') nextLeft -= this.speed.x;
+            else if (this.currentDirection === 'up') nextTop -= this.speed.y;
+            else if (this.currentDirection === 'down') nextTop += this.speed.y;
     
-        if (!checkCollisionBoundaries(nextLeft, nextTop, this.pacman, boundaries)) {
-            this.pacman.style.left = nextLeft + "px";
-            this.pacman.style.top = nextTop + "px";
+            if (!checkCollisionBoundaries(nextLeft, nextTop, this.pacman, boundaries)) {
+                this.pacman.style.left = nextLeft + "px";
+                this.pacman.style.top = nextTop + "px";
     
-            if (!this.moveSoundPlaying && this.currentDirection !== null) {
-                this.moveSound.play();
-                this.moveSoundPlaying = true;
+                if (!this.moveSoundPlaying && this.currentDirection !== null) {
+                    this.moveSound.play();
+                    this.moveSoundPlaying = true;
+                }
+            } else {
+                if (this.moveSoundPlaying) {
+                    this.moveSound.pause();
+                    this.moveSound.currentTime = 0;
+                    this.moveSoundPlaying = false;
+                }
             }
-        } else {
-            if (this.moveSoundPlaying) {
+    
+            checkCollisionPellets(nextLeft, nextTop, this.pacman, pellets);
+    
+            if (checkGhostCollision(nextLeft, nextTop, this.pacman, ghosts)) {
                 this.moveSound.pause();
                 this.moveSound.currentTime = 0;
                 this.moveSoundPlaying = false;
+                this.damageSound.play();
+    
+                this.isPaused = true;
+    
+                setTimeout(() => {
+                    this.resetCharacters();
+                    this.life--;
+    
+                    if (this.life === 0) {
+                        open("gameover.html", "_self");
+                    } else {
+                        this.isPaused = false;
+                    }
+    
+                    this.updateLivesDisplay();
+                }, 1000);
             }
-        }
-    
-        checkCollisionPellets(nextLeft, nextTop, this.pacman, pellets);
-    
-        if (checkGhostCollision(nextLeft, nextTop, this.pacman, ghosts)) {
-            this.moveSound.pause();
-            this.moveSound.currentTime = 0;
-            this.moveSoundPlaying = false;
-    
-            this.resetCharacters();
-            this.life--;
-            if (this.life === 0) {
-                open("gameover.html", "_self");
-            }
-            this.updateLivesDisplay();
         }
     
         requestAnimationFrame(() => this.move());
     }
-    
-
     
 }
 
