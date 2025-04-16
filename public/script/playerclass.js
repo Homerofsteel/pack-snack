@@ -147,8 +147,6 @@ class Pacman extends Character {
             this.pacman.src = "../Images/standing-rick.png"; 
         }
     }
-    
-    
 
     move() {
         let left = parseInt(this.pacman.style.left, 10);
