@@ -6,6 +6,10 @@
 
 body, html {
     height: 100%;
+    background-image: url('../Images/pack-snack-game-wallpaper.jpg'); /* ton image de fond */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
