@@ -1,4 +1,4 @@
-import { checkCollisionBoundaries, checkGhostCollision} from './collision.js';
+import { checkCollisionBoundaries, checkGhostCollision } from './collision.js';
 import { boundaries } from "./map.js";
 import { Character } from "./character.js";
 
@@ -8,13 +8,13 @@ export class Ghost extends Character {
         this.ghost = document.getElementById(elementId); 
         this.ghosts = ghosts || [];
         this.id = elementId;
+        this.lastDirection = null;
         this.startMoving();
     }
 
     resetPosition(x, y) {
-        this.position.x = x;
-        this.position.y = y;
-        this.updatePosition(this.position.x, this.position.y); 
+        this.position = { x, y };
+        this.updatePosition(x, y); 
     }
 
     startMoving() {
@@ -27,62 +27,56 @@ export class Ghost extends Character {
         this.direction.y = -this.direction.y;
     }
 
-    isAtIntersection(position) {
-        const directions = [
+    getAvailableDirections() {
+        return [
             { x: this.speed.x, y: 0 },
             { x: -this.speed.x, y: 0 },
             { x: 0, y: this.speed.y },
             { x: 0, y: -this.speed.y }
         ];
-        let possibleDirections = 0;
-    
-        directions.forEach(direction => {
-            const nextX = position.x + direction.x;
-            const nextY = position.y + direction.y;
-            if (!checkCollisionBoundaries(nextX, nextY, this.ghost, boundaries)) {
-                possibleDirections++;
-            }
-        });
-    
-        return possibleDirections > 2; 
     }
-    
+
+    isAtIntersection(position) {
+        const validDirections = this.getAvailableDirections().filter(dir => {
+            const nextX = position.x + dir.x;
+            const nextY = position.y + dir.y;
+            return !checkCollisionBoundaries(nextX, nextY, this.ghost, boundaries);
+        });
+        return validDirections.length > 2;
+    }
 
     setRandomDirection() {
-        const directions = [
-            { x: this.speed.x, y: 0 },
-            { x: -this.speed.x, y: 0 },
-            { x: 0, y: this.speed.y },
-            { x: 0, y: -this.speed.y }
-        ];
-        this.direction = directions[Math.floor(Math.random() * directions.length)];
+        const directions = this.getAvailableDirections();
+        const filtered = this.lastDirection
+            ? directions.filter(dir => !(dir.x === -this.lastDirection.x && dir.y === -this.lastDirection.y))
+            : directions;
+
+        this.direction = filtered[Math.floor(Math.random() * filtered.length)];
+        this.lastDirection = this.direction;
     }
 
     move = () => {
-        let nextX = this.position.x + this.direction.x;
-        let nextY = this.position.y + this.direction.y;
-    
+        const nextX = this.position.x + this.direction.x;
+        const nextY = this.position.y + this.direction.y;
+
         if (checkCollisionBoundaries(nextX, nextY, this.ghost, boundaries)) {
-            this.setRandomDirection(); 
+            this.setRandomDirection();
         } else {
-            this.position.x = nextX;
-            this.position.y = nextY;
-            this.updatePosition(this.position.x, this.position.y);
-    
+            this.position = { x: nextX, y: nextY };
+            this.updatePosition(nextX, nextY);
+
             if (this.isAtIntersection(this.position)) {
                 this.setRandomDirection();
             }
         }
-    
+
         if (checkGhostCollision(nextX, nextY, this.ghost, this.ghosts)) {
             this.reverseDirection();
         }
-    
+
         requestAnimationFrame(this.move);
     };
-    
 }
-
 
 export function createGhosts() {
     const ghosts = [];
@@ -90,10 +84,8 @@ export function createGhosts() {
     ghosts.push(new Ghost("ghost2", { x: 180, y: 490 }, { x: 1, y: 1 }, ghosts));
     ghosts.push(new Ghost("ghost3", { x: 405, y: 318 }, { x: 1, y: 1 }, ghosts));
     ghosts.push(new Ghost("ghost4", { x: 180, y: 225 }, { x: 1, y: 1 }, ghosts));
-
     return ghosts;
 }
 
-
-    export const ghosts = createGhosts();
-    console.log(ghosts); 
+export const ghosts = createGhosts();
+console.log(ghosts);

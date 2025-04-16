@@ -14,7 +14,8 @@ class Pacman extends Character {
         this.directionTimeout = null;
         this.moveSound = new Audio('../Audio/move.wav');
         this.moveSound.loop = true;
-this.moveSoundPlaying = false;
+        this.moveSound.volume = 0.2;
+        this.moveSoundPlaying = false;
         this.init();
     }
 
@@ -59,20 +60,17 @@ this.moveSoundPlaying = false;
             if (ghost.id === "ghost1") {
                 ghost.resetPosition(309, 315);
             } else if (ghost.id === "ghost2") {
-                ghost.resetPosition(180, 510);
+                ghost.resetPosition(180, 490);
             } else if (ghost.id === "ghost3") {
                 ghost.resetPosition(405, 318);
             } else if (ghost.id === "ghost4") {
-                ghost.resetPosition(180, 200);
+                ghost.resetPosition(180, 225);
             }
         });
     
         console.log("Positions réinitialisées !");
     }
     
-    
-    
-
     setNextDirection(direction) {
         this.nextDirection = direction;
     
@@ -94,7 +92,7 @@ this.moveSoundPlaying = false;
         let left = parseInt(this.pacman.style.left, 10);
         let top = parseInt(this.pacman.style.top, 10);
 
-        const directionOffsets = {
+        const direction = {
             right: { x: this.speed.x, y: 0 },
             left: { x: -this.speed.x, y: 0 },
             up: { x: 0, y: -this.speed.y },
@@ -102,7 +100,7 @@ this.moveSoundPlaying = false;
         };
 
         if (this.nextDirection) {
-            const offset = directionOffsets[this.nextDirection];
+            const offset = direction[this.nextDirection];
             const testLeft = left + offset.x;
             const testTop = top + offset.y;
 
@@ -138,10 +136,13 @@ this.moveSoundPlaying = false;
         checkCollisionPellets(nextLeft, nextTop, this.pacman, pellets);
 
         if (checkGhostCollision(nextLeft, nextTop, this.pacman, ghosts)) {
+            this.moveSound.pause();
+    this.moveSound.currentTime = 0;
+    this.moveSoundPlaying = false;
             this.resetCharacters();
             this.life--;
         }
-
+        
         if (this.life === 0) {
             open("gameover.html", "_self");
         }

@@ -2,26 +2,17 @@ import { pellets } from "./map.js";
 import { boundaries, canvas } from "./map.js";
 import { ghosts } from "./ghostclass.js";
 
-function getCanvasOffset() {
-    const canvasRect = canvas.getBoundingClientRect();
-    return {
-        x: canvasRect.left ,
-        y: canvasRect.top,
-    };
-}
-
+// Vérifie les collisions avec les murs
 export function checkCollisionBoundaries(nextX, nextY, pacman, boundaries) {
-    const canvasOffset = getCanvasOffset(); 
-
     for (const boundary of boundaries) {
-        const pacmanLeft = nextX + canvasOffset.x;  
+        const pacmanLeft = nextX;
         const pacmanRight = pacmanLeft + pacman.offsetWidth;
-        const pacmanTop = nextY + canvasOffset.y;   
+        const pacmanTop = nextY;
         const pacmanBottom = pacmanTop + pacman.offsetHeight;
 
-        const boundaryLeft = boundary.position.x + canvasOffset.x; 
+        const boundaryLeft = boundary.position.x;
         const boundaryRight = boundaryLeft + boundary.width;
-        const boundaryTop = boundary.position.y + canvasOffset.y;  
+        const boundaryTop = boundary.position.y;
         const boundaryBottom = boundaryTop + boundary.height;
 
         if (
@@ -33,20 +24,16 @@ export function checkCollisionBoundaries(nextX, nextY, pacman, boundaries) {
             return true;
         }
     }
-    return false; 
+    return false;
 }
 
-
-
-
+// Vérifie les collisions avec les pastilles
 export function checkCollisionPellets(nextX, nextY, pacman, pellets) {
-    const canvasOffset = getCanvasOffset(); 
-
-    for (let i = pellets.length - 1; i >= 0; i--) { 
+    for (let i = pellets.length - 1; i >= 0; i--) {
         const pellet = pellets[i];
-        const pelletLeft = pellet.position.x + canvasOffset.x;  
+        const pelletLeft = pellet.position.x;
         const pelletRight = pelletLeft + pellet.width;
-        const pelletTop = pellet.position.y + canvasOffset.y;    
+        const pelletTop = pellet.position.y;
         const pelletBottom = pelletTop + pellet.height;
 
         if (
@@ -59,22 +46,22 @@ export function checkCollisionPellets(nextX, nextY, pacman, pellets) {
                 pellet.image.parentNode.removeChild(pellet.image);
             }
 
-            pellets.splice(i, 1); 
-            return true; 
+            pellets.splice(i, 1);
+            return true;
         }
     }
-    return false; 
+    return false;
 }
 
-
+// Vérifie la collision entre Pacman et un fantôme
 export function checkGhostCollision(nextX, nextY, character, ghosts) {
     for (const ghost of ghosts) {
         if (!ghost || !ghost.ghost || ghost.id === character.id) continue;
 
         const ghostLeft = ghost.position.x;
-        const ghostRight = ghost.position.x + ghost.ghost.offsetWidth;
+        const ghostRight = ghostLeft + ghost.ghost.offsetWidth;
         const ghostTop = ghost.position.y;
-        const ghostBottom = ghost.position.y + ghost.ghost.offsetHeight;
+        const ghostBottom = ghostTop + ghost.ghost.offsetHeight;
 
         if (
             nextX + character.offsetWidth > ghostLeft &&
@@ -88,5 +75,3 @@ export function checkGhostCollision(nextX, nextY, character, ghosts) {
     }
     return false;
 }
-
-
