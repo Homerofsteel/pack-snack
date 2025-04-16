@@ -1,9 +1,14 @@
 class Score {
-    constructor() {
-      this.value = 0;
-    }
-  
-    add(points) {
+  constructor() {
+      this.value = -10; 
+  }
+
+  reset() {
+      this.value = -10; 
+      this.updateScoreDisplay(); 
+  }
+
+  add(points) {
       this.value += points;
     }
   
@@ -18,4 +23,5 @@ class Score {
     }
   }
   
-export const score = new Score();
+  const score = new Score();
+  export default score;

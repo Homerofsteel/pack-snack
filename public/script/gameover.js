@@ -1,14 +1,24 @@
-import score from "./score";
-import { EndScore } from "./endScore";
+document.addEventListener("DOMContentLoaded", () => {
+    const scoredraw = document.getElementById("score");
+    const storedScore = localStorage.getItem("score");
 
-document.addEventListener("DOMContentLoaded", function() {
-    EndScore.finalscore(score.value);
-    document.getElementById("final-score")
+    if (scoredraw) {
+        if (storedScore !== null) {
+            scoredraw.textContent = `Score: ${storedScore}`;
+        } else {
+            scoredraw.textContent = "Score: 0"; 
+        }
+    } else {
+        console.error("Élément #score introuvable sur la page HTML !");
+    }
+
     document.getElementById("retry-button").addEventListener("click", function() {
-        window.location.href = "game.html";
+        localStorage.removeItem("score");
+        window.location.href = "../html/game.html";
     });
 
     document.getElementById("home-button").addEventListener("click", function() {
-        window.location.href = "index.html"; 
+        localStorage.removeItem("score");
+        window.location.href = "../html/index.html"; 
     });
 });

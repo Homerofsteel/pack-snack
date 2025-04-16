@@ -46,6 +46,10 @@
         height: 100%;
     }
 
+    #score {
+        color: #b0b0b0;
+    }
+
 
     .button-links {
         display: grid;
