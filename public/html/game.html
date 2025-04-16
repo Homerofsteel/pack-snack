@@ -4,28 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pac-Man Test</title>
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/game.css">
 </head>
 <body>
+    <div id="game-wrapper"></div>
+    <div id="game-container">
         <canvas id="gameCanvas"></canvas>
-
         <div id="pacman-container">
-    <img id="pacman" src="../Images/standing-rick.png" alt="pacman">
+            <img id="pacman" src="../Images/standing-rick.png" alt="pacman">
+        </div>
+        <img id="ghost1" src="../Images/boo.png" alt="Ghost1">
+        <img id="ghost2" src="../Images/ghostrick.png" alt="Ghost2">
+        <img id="ghost3" src="../Images/boo.png" alt="Ghost3">
+        <img id="ghost4" src="../Images/ghostrick.png" alt="Ghost4">
     </div>
+    </body>
 
-    <img id="ghost1" src="../Images/boo.png" alt="Ghost1">
-    <img id="ghost2" src="../Images/ghostrick.png" alt="Ghost2">
-    <img id="ghost3" src="../Images/boo.png" alt="Ghost3">
-    <img id="ghost4" src="../Images/ghostrick.png" alt="Ghost4">
     <div id="pacman-lives"></div>
+
+    <script type="module" src="../script/playerclass.js"></script>
+    <script type="module" src="../script/ghostclass.js"></script>
+    <script type="module" src="../script/map.js"></script>
 </body>
-
-<script type="module" src="../script/playerclass.js"></script>
-<script type="module" src="../script/ghostclass.js"></script>
-<script type="module" src="../script/map.js"></script>
-
-<script>
-    
-</script>
-    
 </html>
