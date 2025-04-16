@@ -18,5 +18,4 @@ class Score {
     }
   }
   
-  const score = new Score();
-  export default score;
+export const score = new Score();
