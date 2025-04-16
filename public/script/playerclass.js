@@ -124,7 +124,7 @@ class Pacman extends Character {
         let top = parseInt(this.pacman.style.top, 10);
     
         const direction = {
-            right: { x: this.speed.x, y: 0 },
+            right: { x: this.speed.x, y: 0},
             left: { x: -this.speed.x, y: 0 },
             up: { x: 0, y: -this.speed.y },
             down: { x: 0, y: this.speed.y },
