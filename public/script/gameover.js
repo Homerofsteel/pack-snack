@@ -1,18 +1,24 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const finalScore = localStorage.getItem("pacmanScore");
-    const scoreElement = document.getElementById("score");
+document.addEventListener("DOMContentLoaded", () => {
+    const scoredraw = document.getElementById("score");
+    const storedScore = localStorage.getItem("score");
 
-    if (scoreElement && finalScore !== null) {
-        scoreElement.textContent = `Score final : ${finalScore}`;
+    if (scoredraw) {
+        if (storedScore !== null) {
+            scoredraw.textContent = `Score: ${storedScore}`;
+        } else {
+            scoredraw.textContent = "Score: 0"; 
+        }
+    } else {
+        console.error("Élément #score introuvable sur la page HTML !");
     }
 
     document.getElementById("retry-button").addEventListener("click", function() {
-        localStorage.removeItem("pacmanScore");
+        localStorage.removeItem("score");
         window.location.href = "../html/game.html";
     });
 
     document.getElementById("home-button").addEventListener("click", function() {
-        localStorage.removeItem("pacmanScore");
+        localStorage.removeItem("score");
         window.location.href = "../html/index.html"; 
     });
 });
