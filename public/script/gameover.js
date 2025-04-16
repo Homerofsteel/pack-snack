@@ -1,14 +1,18 @@
-import score from "./score";
-import { EndScore } from "./endScore";
-
 document.addEventListener("DOMContentLoaded", function() {
-    EndScore.finalscore(score.value);
-    document.getElementById("final-score")
+    const finalScore = localStorage.getItem("pacmanScore");
+    const scoreElement = document.getElementById("score");
+
+    if (scoreElement && finalScore !== null) {
+        scoreElement.textContent = `Score final : ${finalScore}`;
+    }
+
     document.getElementById("retry-button").addEventListener("click", function() {
-        window.location.href = "game.html";
+        localStorage.removeItem("pacmanScore");
+        window.location.href = "../html/game.html";
     });
 
     document.getElementById("home-button").addEventListener("click", function() {
-        window.location.href = "index.html"; 
+        localStorage.removeItem("pacmanScore");
+        window.location.href = "../html/index.html"; 
     });
 });
