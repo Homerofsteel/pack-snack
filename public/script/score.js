@@ -10,18 +10,24 @@ class Score {
 
   add(points) {
       this.value += points;
-    }
-  
-    reset() {
-      this.value = 0;
-    }
-  
-    draw(ctx) {
-      ctx.font = "20px Arial";
-      ctx.fillStyle = "white";
-      ctx.fillText("Score: " + this.value, 20, 30);
-    }
+      console.log(`Score actuel : ${this.value}`); 
+      this.updateScoreDisplay(); 
+      localStorage.setItem("score", this.value);
   }
-  
-  const score = new Score();
-  export default score;
+
+  updateScoreDisplay() {
+      const scoredraw = document.getElementById("score");
+      if (scoredraw) {
+          scoredraw.textContent = `Score: ${this.value}`;
+      } else {
+          console.error("Élément #score introuvable sur la page HTML !");
+      }
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  score.updateScoreDisplay();
+});
+
+
+export const score = new Score();
