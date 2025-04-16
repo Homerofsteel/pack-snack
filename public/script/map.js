@@ -24,6 +24,8 @@ class Pellet {
   }
 }
 
+export let pelletsLeft = 0;
+
 function createImage(src) {
   const img = new Image();
   img.src = src;
@@ -147,8 +149,10 @@ map.forEach((row, i) => {
           image: createImage('../Images/pickle.png'),
           id: "no collision"
         }));
-        
+
+        window.pelletsLeft = (window.pelletsLeft || 0) + 1; // ici on compte le nombre de pellets restant
         break;
+
         case 'g':
         pellets.push(new Pellet({
           position: { 
