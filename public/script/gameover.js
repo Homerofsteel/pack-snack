@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const scoredraw = document.getElementById("score");
-    const storedScore = localStorage.getItem("score");
+    const scoredraw = document.getElementById("gameover-score");
+    const storedScore = localStorage.getItem("gameover-score");
 
     if (scoredraw) {
         if (storedScore !== null) {
