@@ -1,7 +1,8 @@
 import { ghosts } from "./ghostclass.js";
 import { player } from "./playerclass.js"
 import {score} from "./score.js";
-import { pelletsLeft } from "./map.js";
+
+let pelletremaining=130;
 
 // Vérifie les collisions avec les murs
 export function checkCollisionBoundaries(nextX, nextY, pacman, boundaries) {
@@ -50,12 +51,13 @@ export function checkCollisionPellets(nextX, nextY, pacman, pellets) {
             if (pellet.id === "no collision") {
                 score.add(10);
                 pellets.splice(i, 1);
-                
-                window.pelletsLeft--; //ici on enlève un pelet au nombre total
-                if (window.pelletsLeft === 0) { // quand le nombre atteint 0 on win
-                    console.log("🎉 YOU WIN!"); 
-                    // il faudrait faire une page win.html
+                pelletremaining--;
+                console.log(pelletremaining)
+                if (pelletremaining==0) {
+                    window.location.href = "../html/victory.html"; 
                 }
+                
+                
 
 
             } else if (pellet.id === "gun") {
