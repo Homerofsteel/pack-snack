@@ -22,13 +22,28 @@ class Score {
   }
 
   updateScoreDisplay() {
-      const scoredraw = document.getElementById("score");
-      if (scoredraw) {
-          scoredraw.textContent = `Score: ${this.value}`;
-      } else {
-          console.error("Élément #score introuvable sur la page HTML !");
-      }
-  }
+    const scoreValue = document.getElementById("score-value");
+    if (scoreValue) {
+        scoreValue.textContent = this.value;
+    } else {
+        console.error("Élément #score-value introuvable sur la page HTML !");
+    }
+}
+
+showScoreAdded(value) {
+    const scoreAdded = document.getElementById("score-added");
+    if (!scoreAdded) return;
+
+    scoreAdded.textContent = value > 0 ? `+${value}` : `${value}`;
+    scoreAdded.style.color = value > 0 ? 'green' : 'red';
+    
+    scoreAdded.classList.add("show");
+
+    setTimeout(() => {
+        scoreAdded.classList.remove("show");
+    }, 800);
+}
+
 }
 
 document.addEventListener("DOMContentLoaded", () => {

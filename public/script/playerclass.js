@@ -154,6 +154,7 @@ class Pacman extends Character {
             this.pacman.src = "../Images/standing-rick.png"; 
         }
     }
+    
 
     //méthode pour se déplacer avec gestion des collisions
     move() {
@@ -222,7 +223,8 @@ class Pacman extends Character {
                 this.isPaused = true;
                 this.updateImage();
                 score.add(-100);
-                
+                score.showScoreAdded(-100);
+
 
                 setTimeout(() => {
                     this.resetCharacters();
@@ -240,6 +242,7 @@ class Pacman extends Character {
             } else {
                 this.bite.play()
                 score.add(50);
+                score.showScoreAdded(+50);
                 switch (collidedGhost.id) {
                     case "ghost1":
                         collidedGhost.resetPosition(309, 315);

@@ -95,16 +95,9 @@ body, html {
     z-index: 10;
     gap: 50px;
     min-width: 350px;
+    width: fit-content;
 }
 
-#score {
-    display: flex;
-    justify-content: flex-start;
-    color: #ff4d4d;
-    text-shadow: 1px 1px 2px black;
-    white-space: nowrap;
-    width: 120px;
-}
 
 
 #pacman-lives {
@@ -114,7 +107,9 @@ body, html {
     color: #00ffcc;
     text-shadow: 1px 1px 2px black;
     white-space: nowrap;
+    min-width: 120px; /* Ajuste si besoin selon la taille max que le texte peut atteindre */
 }
+
 
 #wallpaper {
     position: absolute;
@@ -124,3 +119,37 @@ body, html {
     height: 100%;
     z-index: 0;
 }
+
+#score {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: blue;
+    text-shadow: 1px 1px 2px black;
+    white-space: nowrap;
+    width: auto;
+    position: relative; 
+    min-width: 160px;
+}
+
+.score-added {
+    position: absolute;
+    right: -50px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    font-weight: bold;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    min-width: 40px;
+    text-align: center;
+}
+
+.score-added.show {
+    opacity: 1;
+    transform: translateX(-100%) translateY(-40%);
+
+}
+
+  
