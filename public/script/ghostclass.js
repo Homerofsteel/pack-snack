@@ -12,21 +12,25 @@ export class Ghost extends Character {
         this.startMoving();
     }
 
+    //réinitialise la position des fantomes
     resetPosition(x, y) {
         this.position = { x, y };
         this.updatePosition(x, y); 
     }
 
+    //démarre les méthodes de mouvement des fantomes
     startMoving() {
         this.setRandomDirection();
         this.move();
     }
 
+    //inverse la direction
     reverseDirection() {
         this.direction.x = -this.direction.x;
         this.direction.y = -this.direction.y;
     }
 
+    //récupére les directions légales
     getAvailableDirections() {
         return [
             { x: this.speed.x, y: 0 },
@@ -36,6 +40,7 @@ export class Ghost extends Character {
         ];
     }
 
+    //gére le cas du fantome se trouvant à une intersection
     isAtIntersection(position) {
         const validDirections = this.getAvailableDirections().filter(dir => {
             const nextX = position.x + dir.x;
@@ -45,6 +50,7 @@ export class Ghost extends Character {
         return validDirections.length > 2;
     }
 
+    //donne une direction aléatoire au fantome
     setRandomDirection() {
         const directions = this.getAvailableDirections();
         const filtered = this.lastDirection
@@ -55,6 +61,7 @@ export class Ghost extends Character {
         this.lastDirection = this.direction;
     }
 
+    //modifie les images pour simuler le godmod de pacman
     SwitchImages() {
         switch (this.id) {
             case "ghost1":
@@ -75,6 +82,7 @@ export class Ghost extends Character {
         }
     }
 
+    //réinitialise les images après la fin de l'effet godmod
     restoreImage() {
         switch (this.id) {
             case "ghost1":
@@ -92,7 +100,8 @@ export class Ghost extends Character {
         }
     }
     
-
+    
+    //méthode pour se déplacer avec gestion des collisions
     move = () => {
         const nextX = this.position.x + this.direction.x;
         const nextY = this.position.y + this.direction.y;
@@ -116,6 +125,7 @@ export class Ghost extends Character {
     };
 }
 
+//Initialisation de fantomes
 export function createGhosts() {
     const ghosts = [];
     ghosts.push(new Ghost("ghost1", { x: 720, y: 230 }, { x: 1, y: 1 }, ghosts));

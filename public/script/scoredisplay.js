@@ -1,5 +1,7 @@
+//récupére le score en local et l'affiche sur la page
+
 document.addEventListener("DOMContentLoaded", () => {
-    const scoredraw = document.getElementById("gameover-score");
+    const scoredraw = document.getElementById("final-score");
     const storedScore = localStorage.getItem("score");
 
     if (scoredraw) {

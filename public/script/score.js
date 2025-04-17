@@ -1,3 +1,5 @@
+//gestion du score
+
 class Score {
   constructor() {
       this.value = -10; 
@@ -9,7 +11,11 @@ class Score {
   }
 
   add(points) {
-      this.value += points;
+    if (this.value+points<0){
+        this.value=0
+    } else {
+        this.value += points;
+    }
       console.log(`Score actuel : ${this.value}`); 
       this.updateScoreDisplay(); 
       localStorage.setItem("score", this.value);

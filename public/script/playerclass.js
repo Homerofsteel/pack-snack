@@ -67,6 +67,8 @@ class Pacman extends Character {
 
     }
 
+    
+    //active le godmod
     setGodMod() {
             this.godmod = true;
             this.PowerUpSound.play()
@@ -74,6 +76,7 @@ class Pacman extends Character {
             this.pacman.classList.add("godmod");
     }
 
+    //désactive le godmod
     resetGodMod() {
         this.godmod=false
             this.PowerUpSound.pause()
@@ -82,6 +85,7 @@ class Pacman extends Character {
     }
     
 
+    //gestion de l'affichage du nombre de vies
     updateLivesDisplay() {
         const livesContainer = document.getElementById("pacman-lives");
         livesContainer.innerHTML = "";
@@ -97,6 +101,7 @@ class Pacman extends Character {
     }
     
 
+    //réinitialise la position des personnages quand on prend un dégat
     resetCharacters() {
         this.updatePosition(45, 45);
         this.currentDirection = null;
@@ -123,7 +128,7 @@ class Pacman extends Character {
         console.log("Positions réinitialisées !");
     }
     
-    
+    //conserve la prochaine direction pour les intersections
     setNextDirection(direction) {
         this.nextDirection = direction;
     
@@ -132,7 +137,8 @@ class Pacman extends Character {
             this.directionTimeout = null;
         }
     }
-    
+
+    //désactive la prochaine direction après un certain temps non maintenu
     startDirectionTimeout() {
         this.directionTimeout = setTimeout(() => {
             this.nextDirection = null;
@@ -140,6 +146,7 @@ class Pacman extends Character {
         }, 500); 
     }
 
+    //modifie l'image quand on se fait toucher
     updateImage() {
         if (this.isPaused) {
             this.pacman.src = "../Images/drunk-rick.png";
@@ -148,6 +155,7 @@ class Pacman extends Character {
         }
     }
 
+    //méthode pour se déplacer avec gestion des collisions
     move() {
         let left = parseInt(this.pacman.style.left, 10);
         let top = parseInt(this.pacman.style.top, 10);
@@ -203,47 +211,50 @@ class Pacman extends Character {
 
             console.log(this.godmod)
 
-if (collidedGhost) {
-    if (!this.godmod) {
-        this.moveSound.pause();
-        this.moveSound.currentTime = 0;
-        this.moveSoundPlaying = false;
-        this.damageSound.play();
+        //gestion du dégat qaudn on touche un fantome
+        if (collidedGhost) {
+            if (!this.godmod) {
+                this.moveSound.pause();
+                this.moveSound.currentTime = 0;
+                this.moveSoundPlaying = false;
+                this.damageSound.play();
 
-        this.isPaused = true;
-        this.updateImage();
-
-        setTimeout(() => {
-            this.resetCharacters();
-            this.life--;
-
-            if (this.life === 0) {
-                open("gameover.html", "_self");
-            } else {
-                this.isPaused = false;
+                this.isPaused = true;
                 this.updateImage();
-            }
+                score.add(-100);
+                
 
-            this.updateLivesDisplay();
-        }, 1000);
-    } else {
-        this.bite.play()
-        score.add(50);
-        switch (collidedGhost.id) {
-            case "ghost1":
-                collidedGhost.resetPosition(309, 315);
-                break;
-            case "ghost2":
-                collidedGhost.resetPosition(180, 490);
-                break;
-            case "ghost3":
-                collidedGhost.resetPosition(405, 318);
-                break;
-            case "ghost4":
-                collidedGhost.resetPosition(180, 225);
-                break;
-        }
-    }
+                setTimeout(() => {
+                    this.resetCharacters();
+                    this.life--;
+
+                    if (this.life === 0) {
+                        open("gameover.html", "_self");
+                    } else {
+                        this.isPaused = false;
+                        this.updateImage();
+                    }
+
+                    this.updateLivesDisplay();
+                }, 1000);
+            } else {
+                this.bite.play()
+                score.add(50);
+                switch (collidedGhost.id) {
+                    case "ghost1":
+                        collidedGhost.resetPosition(309, 315);
+                        break;
+                    case "ghost2":
+                        collidedGhost.resetPosition(180, 490);
+                        break;
+                    case "ghost3":
+                        collidedGhost.resetPosition(405, 318);
+                        break;
+                    case "ghost4":
+                        collidedGhost.resetPosition(180, 225);
+                        break;
+                }
+            }
 }
         }
     

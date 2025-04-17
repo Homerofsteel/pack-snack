@@ -8,7 +8,7 @@ body, html {
     color: white;
 }
 
-.gameover-box {
+.final-box {
     background: #222;
     border: 6px solid #004cff; 
     border-radius: 24px;
@@ -18,7 +18,7 @@ body, html {
     text-align: center;
 }
 
-.gameover-title {
+.final-title {
     font-size: 3rem;
     color: #004cff; 
     margin-bottom: 45px;
@@ -28,7 +28,7 @@ body, html {
     letter-spacing: 3px;
 }
 
-#gameover-score {
+#final-score {
     font-size: 2.5rem;
     margin-bottom: 35px;
     font-weight: bold;
@@ -40,7 +40,7 @@ body, html {
     text-shadow: 0 0 10px rgba(0, 76, 255, 0.8), 0 0 20px rgba(0, 76, 255, 0.8); 
 }
 
-.gameover-buttons {
+.final-buttons {
     display: flex;
     flex-direction: column;
     gap: 25px;

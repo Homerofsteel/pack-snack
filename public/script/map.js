@@ -50,7 +50,7 @@ export const map = [
   ['4', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '3']
 ];
 
-
+//génération de la map et positionnement des images en fonction du cas
 map.forEach((row, i) => {
   row.forEach((symbol, j) => {
     switch (symbol) {
@@ -170,6 +170,7 @@ map.forEach((row, i) => {
   });
 });
 
+//dessine la map sur le html
 export const canvas = document.getElementById("gameCanvas");
 canvas.width = Boundary.width * map[0].length;
 canvas.height = Boundary.height * map.length; 
@@ -198,12 +199,8 @@ function draw() {
     }
   });
 
-  
-
-
   requestAnimationFrame(draw);
 
-  
 }
 draw();
 
